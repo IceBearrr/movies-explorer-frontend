@@ -6,7 +6,7 @@
 
 @import url(../src/components/Footer/Footer.css);
 
-@import url(../src/components/Login/Login.css);
+@import url(../src/components/Login/Login-register.css);
 
 @import url(../src/components/Error/Error.css);
 
@@ -24,6 +24,9 @@
 @import url(../src/components/Movies/Preloader.css);
 @import url(../src/components/Movies/SearchForm.css);
 @import url(../src/components/SavedMovies/SavedMovies.css);
+
+@import url(../src/components/BurgerMenu/BurgerMenu.css);
+@import url(../src/components/BurgerMenuBtn/BurgerMenuBtn.css);
 
 @import url(../src/components/Navigation/Navigation.css);
 

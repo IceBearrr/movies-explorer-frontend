@@ -42,7 +42,7 @@ function Header() {
                         className="logo-link" >
                         <Logo />
                     </Link>
-                    < div className="header__nav header__nav-wrapper_type_unauth" >
+                    <div className="header__nav header__nav-wrapper_type_unauth" >
                         <Navigation />
                     </div>
                 </Route>
@@ -59,6 +59,10 @@ function Header() {
                 ) : null}
 
                 <Route exact path={['/movies', '/saved-movies', '/profile']} >
+                    <Link to="/"
+                        className="logo-link" >
+                        <Logo />
+                    </Link>
                     <BurgerMenu isOpen={isOpen} closeHandler={handleBurgerMenuClick} />
                 </Route>
 

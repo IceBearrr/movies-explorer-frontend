@@ -32,11 +32,18 @@
 }
 
 .techs__names {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, 90px);
+    gap: 10px;
+    max-width: 690px;
     justify-content: center;
-    margin-top: 0;
+    margin: 0 auto;
     text-align: center;
     padding-bottom: 100px;
-    margin-bottom: 0;
+    padding-left: 0;
+    align-items: center;
+    justify-items: center;
 }
 
 .techs__name {
@@ -49,8 +56,6 @@
     color: #FFFFFF;
     width: 90px;
     height: 39px;
-    margin-right: 10px;
-    display: inline-block;
     padding-top: 21px;
 }
 
@@ -59,19 +64,30 @@
 }
 
 @media screen and (max-width: 768px) {
+    .techs {
+        background-color: #272727;
+        margin: 0 auto;
+    }
     .block__name_techs {
         margin: 110px auto 23px;
         padding-top: 100px;
         max-width: calc(100% - 2 * 40px);
     }
+    .techs__text {
+        margin-bottom: 83px;
+    }
     .techs__names {
-        padding-left: 0;
+        padding-bottom: 90px;
+    
+
     }
 }
 
 @media screen and (max-width: 320px) {
     .techs {
         background-color: #202020;
+        margin: 0 auto;
+        max-width: calc(100% - 2 * 5px);
     }
     .block__name_techs {
         margin: 110px auto 23px;
@@ -94,9 +110,8 @@
     }
     .techs__names {
         padding: 0;
-        display: grid;
         grid-template-columns: 84px 84px;
-        grid-template-rows: repeat(4, 57px);
+        grid-template-rows: repeat(auto-fill, 57px);
         gap: 10px;
         justify-items: center;
         justify-self: center;

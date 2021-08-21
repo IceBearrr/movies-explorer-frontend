@@ -93,8 +93,42 @@ max-height: 327px; */
   }
 }
 
-@media screen and (max-width: 320px) {
-  .student__info-block {
-    display: block;
+@media screen and (max-width: 530px) {
+  .student{
+    /* display: block; */
+    height: auto;
   }
+
+  .student__info-block {
+    justify-content: flex-end;
+      flex-direction: column-reverse;
+      align-items: center;
+  }
+  .student__photo {
+    max-width: 292px;
+    max-height: 352px;
+  }
+.student__info-texts{
+  padding-right: 0;
+  padding-bottom: 40px;
+}
+.student__info-text{
+  padding-top: 40px;
+}
+.student__name{
+  margin-bottom: 0;
+  font-size: 30px;
+line-height: 36px;
+}
+
+.student__job-age{
+  font-size: 11px;
+line-height: 16px;
+margin: 20px 0;
+}
+
+.student__about{
+  font-size: 11px;
+  line-height: 16px;
+}
 }

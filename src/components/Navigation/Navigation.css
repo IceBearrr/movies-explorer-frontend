@@ -1,6 +1,9 @@
 .navigation {
   display: flex;
   flex-direction: row;
+  height: 32px;
+  align-items: center;
+  text-align: center;
 }
 
 .navigation__link {
@@ -16,6 +19,7 @@
   opacity: 1;
   align-items: center;
   text-align: center;
+  height: 100%;
 }
 
 .navigation__link:last-of-type {
@@ -35,14 +39,23 @@
   text-align: center;
   color: #000000;
   background-color: #3DDC84;
-  Width: 76px;
-  Height: 32px;
+  /* Width: 76px;
+  Height: 32px; */
   text-decoration: none;
 }
 
 .navigation__link_is-active {
   font-weight: 500;
 }
+
+
+.profile-btn__image {
+  width: 30px;
+  height: 30px;
+  /* background: url(../../images/profile/akk.svg) no-repeat; */
+}
+
+
 
 @media screen and (max-width: 320px) {
   .navigation__link {

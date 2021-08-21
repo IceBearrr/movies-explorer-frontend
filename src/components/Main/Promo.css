@@ -18,7 +18,7 @@
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 786px) {
     .promo__block {
         margin: 20px auto 0;
         background-color: #272727;
@@ -64,6 +64,6 @@
         font-size: 29px;
         line-height: 37px;
         padding-top: 220px;
-        margin-bottom: 212px;
+        margin-bottom: 200px;
     }
 }

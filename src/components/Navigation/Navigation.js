@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import './Navigation.css';
 import Logo from '../Logo/Logo';
+import Akk from '../Logo/Akk';
 
 function Navigation() {
 
@@ -48,8 +49,12 @@ function Navigation() {
               className="navigation__link"
               activeClassName="navigation__link_is-active"
             >
-              Аккаунт
-              <div className="profile-btn__image" />
+              {/* <p className="navigation__link navigation__link_profile">Аккаунт</p> */}
+            <img
+              src={Akk}
+              alt="Аккаунт"
+              className="profile-btn__image"
+            />
             </NavLink>
           </div>
         </Route>

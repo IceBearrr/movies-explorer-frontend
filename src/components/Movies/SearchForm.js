@@ -1,11 +1,13 @@
 
 import React from 'react';
 import FilterCheckbox from '../Movies/FilterCheckbox';
-import SearchIcon from '../../images/find/find.svg';
+// import SearchIcon from '../../images/find/find.svg';
+import Search from '../Logo/Search';
+// import Search from '../../images/find/find.svg';
 
 function SearchForm() {
   return (
-    <div className="search-form">
+    <div className="search-form block">
       <div className="search-form__search-input-wrapper">
         <input
           className="search-form__text-input"
@@ -13,7 +15,7 @@ function SearchForm() {
           placeholder="Фильм"
           required
         />
-        <button className="search-form__button" type="submit" src={SearchIcon}></button>
+        <button className="search-form__button" type="submit" src={Search}></button>
       </div>
       <div className="search-form__shorts-wrapper">
         <FilterCheckbox />
