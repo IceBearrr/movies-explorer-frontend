@@ -91,7 +91,8 @@
 
 @media screen and (max-width: 768px) {
     .login-register {
-        padding: 232px 0 232px 0;
+        padding-top: 232px;
+        padding-bottom: 232px;
     }
 }
 

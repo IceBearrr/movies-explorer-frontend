@@ -39,7 +39,6 @@ function BurgerMenu({ isOpen, closeHandler }) {
             </div>
 
             <NavLink to="/profile" className="profile-btn">
-                Аккаунт
                 <div className="profile-btn__image" />
             </NavLink>
         </div>

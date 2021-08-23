@@ -20,7 +20,7 @@ function Profile() {
         </label>
 
         <label className="profile__form-label" htmlFor="E-mail">
-          Почта
+          E-mail
           <input
             className="profile__form-input"
             id="email"

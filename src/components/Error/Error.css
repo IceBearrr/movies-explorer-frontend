@@ -34,6 +34,7 @@
     padding-bottom: 60px;
     width: 42px;
     display: block;
+    text-decoration: none;
 }
 
 @media screen and (max-width: 444px) {

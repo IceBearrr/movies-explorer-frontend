@@ -8,9 +8,9 @@ function MoviesCard({ childrenImageSave, childrenButtonSave, childrenButtonDelet
         <p className="moviesCard__movieName">В погоне за Бенкси</p>
         <p className="moviesCard__movieDuration">27 минут</p>
       </div>
-      <div className="moviesCard__container">
+      <div className="moviesCard__container ">
         <img src={Kadr} alt="Фильм" className="moviesCard__image" />
-        <button className="moviesCard__btn">
+        <button className="moviesCard__btn ">
           {childrenButtonSave}
           {childrenImageSave}
           {childrenButtonDelete}

@@ -3,6 +3,7 @@
     src: url(../../fonts/Inter-Medium.woff2) format('woff2');
     font-family: 'Inter', sans-serif;
 }
+
 @font-face {
     src: url(../../fonts/Inter-Regular.woff) format('woff');
     src: url(../../fonts/Inter-Regular.woff2) format('woff2');
@@ -45,7 +46,7 @@
 
 @media screen and (max-width: 768px) {
     .block {
-        margin: 0 40px 0;
+        margin: 0 50px 0;
     }
 }
 

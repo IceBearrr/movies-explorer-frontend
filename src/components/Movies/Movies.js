@@ -9,7 +9,9 @@ function Movies() {
       <section className="movies">
         <SearchForm />
         <MoviesCardList />
-        <button className="movies__moreButton">Ещё</button>
+        <div className="movies__btn-more">
+        <button className="movies__more">Ещё</button>
+        </div>
       </section>
     </div>
   );

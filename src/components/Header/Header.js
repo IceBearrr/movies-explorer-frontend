@@ -38,6 +38,7 @@ function Header() {
             <Switch >
 
                 <Route exact path="/" >
+
                     <Link to="/"
                         className="logo-link" >
                         <Logo />
@@ -47,9 +48,13 @@ function Header() {
                     </div>
                 </Route>
 
-                {!isMobile ? (<Route path={['/movies', '/saved-movies', '/profile']} >
+
+                {!isMobile ? (<Route path={['/movies', '/saved-movies', '/profile']}
+                >
+
                     <Link to="/"
                         className="logo-link" >
+
                         <Logo />
                     </Link>
                     <div className="header__nav header__nav-wrapper_type_auth" >
@@ -59,12 +64,13 @@ function Header() {
                 ) : null}
 
                 <Route exact path={['/movies', '/saved-movies', '/profile']} >
+                    <BurgerMenu isOpen={isOpen} closeHandler={handleBurgerMenuClick} />
                     <Link to="/"
                         className="logo-link" >
                         <Logo />
                     </Link>
-                    <BurgerMenu isOpen={isOpen} closeHandler={handleBurgerMenuClick} />
                 </Route>
+
 
             </Switch>
         </header>

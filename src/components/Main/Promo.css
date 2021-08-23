@@ -11,18 +11,18 @@
     letter-spacing: -4%;
     margin: 0 auto 151px;
     color: #FFFFFF;
-    max-width: 730px;
+    width: 100%;
     height: auto;
     padding-top: 160px;
     line-height: 58px;
     text-align: center;
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
     .promo__block {
         margin: 20px auto 0;
         background-color: #272727;
-        max-width: calc(100% - 2 * 20px);
+        width: calc(100% - 2 * 20px);
         height: 834px;
         font-size: 40px;
         line-height: 52px;

@@ -20,6 +20,7 @@
 
 @import url(../src/components/Movies/FilterCheckbox.css);
 @import url(../src/components/Movies/MoviesCard.css);
+@import url(../src/components/Movies/Movies.css);
 @import url(../src/components/Movies/MoviesCardList.css);
 @import url(../src/components/Movies/Preloader.css);
 @import url(../src/components/Movies/SearchForm.css);

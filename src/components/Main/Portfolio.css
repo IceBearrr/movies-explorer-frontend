@@ -52,20 +52,19 @@
     font-size: 28px;
     line-height: 50px;
   }
-  /* .portfolio__links-arrow {
-      font-size: 28px;
-      line-height: 2.14;
-    } */
+  .portfolio-link_button {
+    font-size: 28px;
+  }
 }
 
 @media screen and (max-width: 490px) {
   .portfolio {
     padding: 70px 0;
-    margin: 0;
-    max-width: calc(100% - 2 * 14px);
+    /* margin: 0; */
+    /* max-width: calc(100% - 2 * 14px); */
   }
   .portfolio__title {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 14px;
     line-height: 20px;
     color: #A0A0A0;

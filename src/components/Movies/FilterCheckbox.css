@@ -8,7 +8,7 @@
   height: 20px;
   appearance: none;
   padding: 2px;
-  background: #FFF;
+  background: #343434;
   border-radius: 20px;
   font-size: 30px;
   cursor: pointer;
@@ -17,7 +17,7 @@
 }
 
 .filter-checkbox__switcher:checked {
-  background: #343434;
+  background: #2BE080;
 }
 
 .filter-checkbox__switcher:after {
@@ -30,7 +30,7 @@
   box-sizing: border-box;
   border: 1px solid #FFFFFF;
   border-radius: 50%;
-  background: #2BE080;
+  background: #FFF;
   box-shadow: 0 0 .25em rgba(0, 0, 0, .3);
   transition: all .2s ease-in-out;
 }

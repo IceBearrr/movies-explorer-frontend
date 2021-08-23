@@ -70,6 +70,7 @@
   color: #FFF;
   transition: opacity .3s ease-in-out;
   opacity: 1;
+  padding: 0;
 }
 
 .profile__form-submit:hover {
@@ -92,6 +93,7 @@
   color: #EE3465;
   transition: opacity .3s ease-in-out;
   opacity: 1;
+  padding: 0;
 }
 
 .profile__logout-btn:hover {
@@ -128,5 +130,11 @@
   }
   .profile__form-label:last-of-type {
     margin-bottom: 379px;
+  }
+  .profile__form-submit {
+    font-size: 12px;
+  }
+  .profile__logout-btn {
+    font-size: 12px;
   }
 }

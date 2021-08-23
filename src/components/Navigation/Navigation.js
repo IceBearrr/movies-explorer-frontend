@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  NavLink, Link, Switch, Route,
-} from 'react-router-dom';
-import './Navigation.css';
+import { NavLink, Link, Switch, Route } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import Akk from '../Logo/Akk';
 
 function Navigation() {
 
@@ -15,13 +11,13 @@ function Navigation() {
           <Link className="logo-link" src={Logo} alt="логотип"></Link>
           <Link
             to="/sign-up"
-            className="navigation__link"
+            className="navigation__link navigation__link_login"
           >
             Регистрация
           </Link>
           <Link
             to="/sign-in"
-            className="navigation__link navigation__link_enter"
+            className="navigation__link navigation__link_enter navigation__link_login"
           >
             Войти
           </Link>
@@ -47,14 +43,12 @@ function Navigation() {
             <NavLink
               to="/profile"
               className="navigation__link"
-              activeClassName="navigation__link_is-active"
+              activeClassName="navigation__link_is-active "
             >
-              {/* <p className="navigation__link navigation__link_profile">Аккаунт</p> */}
-            <img
-              src={Akk}
-              alt="Аккаунт"
-              className="profile-btn__image"
-            />
+              <button
+                type="button"
+                className="profile-btn__image"
+              />
             </NavLink>
           </div>
         </Route>
