@@ -1,0 +1,10 @@
+.savedMovies {
+  display: flex;
+  background-color: #202020;
+  flex-direction: column;
+}
+
+.savedMovies__search {
+  width: 100%;
+  margin: 0;
+}

@@ -1,0 +1,147 @@
+.student__name {
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  margin-top: 0;
+  color: #FFFFFF;
+}
+
+.student__job-age {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: #FFFFFF;
+  mix-blend-mode: normal;
+}
+
+.student__about {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #FFFFFF;
+  mix-blend-mode: normal;
+  max-width: 600px;
+}
+
+.student__info-block {
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  margin-top: 66px;
+}
+
+.student__info-texts {
+  max-width: 600px;
+  display: inline-block;
+  position: relative;
+}
+
+.student__photo {
+  height: 327px;
+  object-fit: cover;
+}
+
+.student__link {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration: none;
+  color: #FFFFFF;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.student__link:last-child {
+  margin-right: 0;
+}
+
+.student__links {
+  position: absolute;
+  bottom: 0;
+  padding-top: 87px;
+}
+
+@media screen and (max-width: 1024px) {
+  .student__info-texts {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .student__info-texts {
+    padding-right: 49px;
+    padding-bottom: 20px;
+  }
+  .student__photo {
+    max-width: 255px;
+    max-height: 307px;
+  }
+  .student__about {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .student__photo {
+    max-width: 255px;
+    height: 307px;
+  }
+  .student__name {
+    font-size: 40px;
+    line-height: 40px;
+  }
+  .student__job-age {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFFFFF;
+    mix-blend-mode: normal;
+  }
+  .student__about {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .student {
+    display: run-in;
+    height: auto;
+  }
+  .student__info-block {
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .student__photo {
+    max-width: 292px;
+    max-height: 352px;
+  }
+  .student__info-texts {
+    padding-right: 0;
+    padding-bottom: 40px;
+  }
+  .student__info-text {
+    padding-top: 40px;
+  }
+  .student__name {
+    margin-bottom: 0;
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .student__job-age {
+    font-size: 11px;
+    line-height: 16px;
+    margin: 20px 0;
+  }
+  .student__about {
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .student__links {
+    padding-top: 20px;
+  }
+}
