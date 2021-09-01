@@ -1,22 +1,65 @@
 
-import React from 'react';
+import React,{ useState } from 'react';
 import FilterCheckbox from '../Movies/FilterCheckbox';
+import useFormWithValidation from "../hook/useFormWithValidation";
 
-function SearchForm() {
+//function SearchForm({ handleSearch, setPreloader, setIsChecked, isLoading }) {
+function SearchForm(props) {
+  const { values, errors, isValid, handleChange } =
+  useFormWithValidation({});
+
+  const [keyword, setKeyword] = useState("");
+  const [isShortMovies, setIsShortMovies] = useState(false);
+
+  // function onCheckboxToggle(checked) {
+  //   setIsShortMovies(checked);
+  //   setIsChecked(!isShortMovies);
+  // }
+
+  function handleKeyword(evt) {
+    handleChange(evt);
+    setKeyword(evt.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    //handleSearch(keyword);
+     props.onSubmitSearch(props.movies, keyword )
+
+      //setPreloader(true);
+  }
+
   return (
     <div className="search-form block">
-      <div className="search-form__search-input-wrapper">
+      <form className="search-form__search-input-wrapper" onSubmit={handleSubmit} required>
         <input
           className="search-form__text-input"
+          name="keyword"
           type="text"
           placeholder="Фильм"
+          minLength="1"
+          maxLength="200"
           required
+          autoComplete="off"
+          // value={values.keyword || ""}
+          onChange={handleKeyword}
+          // disabled={isLoading}
+
         />
-        <button className="search-form__button" type="submit"></button>
-      </div>
+        <button 
+        className="search-form__button"
+        type="submit"
+        className={`search-form__button ${
+          !isValid && "search-form__button_disable"
+      }`}
+      disabled={!isValid}
+      >
+
+      </button>
+      </form>
       <div className="search-form__shorts-wrapper">
-        <FilterCheckbox />
-        <p className="search-form__shorts-title">Короткометражки</p>
+        {/*<FilterCheckbox onCheckboxToggle={onCheckboxToggle}/>*/}
+        {/*<p className="search-form__shorts-title">Короткометражки</p>*/}
 
       </div>
     </div>

@@ -11,6 +11,7 @@
     padding-bottom: 70px;
     font-family: 'Inter', sans-serif;
     font-style: normal;
+    
 }
 
 .login-register__title {
@@ -38,6 +39,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: white;
+}
+
+.login-register__error-text{
+    color: #EE3465;
 }
 
 .login-register__btn {

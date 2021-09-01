@@ -3,15 +3,23 @@ import SearchForm from "../Movies/SearchForm";
 import MoviesCardList from "../Movies/MoviesCardList";
 import { withRouter } from "react-router-dom";
 
-function Movies() {
+
+function Movies(props) {
+
   return (
     <div>
       <section className="movies">
-        <SearchForm />
-        <MoviesCardList />
-        <div className="movies__btn-more">
-        <button className="movies__more">Ещё</button>
-        </div>
+        <SearchForm onSubmitSearch={props.onSubmitSearch}
+                    movies={props.movies}
+                    searchMovies={props.searchMovies}/>
+        <MoviesCardList movies={props.movies}
+                        searchMovies={props.searchMovies}
+                        onHandleButton={props.onHandleButton}
+                        searchMovies={props.searchMovies}
+                        currentCount={props.currentCount}
+                        onMovieLike={props.onMovieLike}
+                        onMovieDelete={props.onMovieDelete}/>
+
       </section>
     </div>
   );
