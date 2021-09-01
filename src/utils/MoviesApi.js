@@ -39,37 +39,37 @@ class MovieApi {
       });
   }
 
-
-
-  putNewFilm(country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId) {
-
-    return fetch(this._baseUrl + 'movies', {
-          method: 'POST',
-          headers: this._headers,
-          body: JSON.stringify({
-            //country: country,
-            //director: director,
-            //owner: owner,
-            //duration: duration,
-            //year: year,
-            //description: description,
-            //nameEN: nameEN,
-            //thumbnail: thumbnail,
-            duration: duration,
-            image: image,
-            trailer: trailer,
-            nameRU: nameRU,
-            movieId: movieId,
-            //owner: owner,
-          })
-
-        }
-    )
-        .then(res => {
-          return this._checkResponse(res)
-        })
-
-  }
+  //
+  //
+  // putNewFilm(country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId) {
+  //
+  //   return fetch(this._baseUrl + 'movies', {
+  //         method: 'POST',
+  //         headers: this._headers,
+  //         body: JSON.stringify({
+  //           //country: country,
+  //           //director: director,
+  //           //owner: owner,
+  //           //duration: duration,
+  //           //year: year,
+  //           //description: description,
+  //           //nameEN: nameEN,
+  //           //thumbnail: thumbnail,
+  //           duration: duration,
+  //           image: image,
+  //           trailer: trailer,
+  //           nameRU: nameRU,
+  //           movieId: movieId,
+  //           //owner: owner,
+  //         })
+  //
+  //       }
+  //   )
+  //       .then(res => {
+  //         return this._checkResponse(res)
+  //       })
+  //
+  // }
 
 
 
@@ -115,7 +115,7 @@ class MovieApi {
 
 
   deleteFilm(moviesId) {
-    return fetch(this._baseUrl + 'movies/' + moviesId, {
+    return fetch(this._baseUrl + 'movies/:' + moviesId, {
       method: 'DELETE',
       headers: this._headers,
 

@@ -15,16 +15,16 @@ function MoviesCard(props) {
 
 // Создаём переменную, которую после зададим в `className` для кнопки удаления
     const movieDeleteLikeButtonClassName = (
-        `moviesCard__img-btn ${isLiked ? 'moviesCard__btn-delete' : ' '}`
+        `moviesCard__img-btn ${props.movie.like ? 'moviesCard__btn-delete' : ' '}`
     );
 
 // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-const isLiked = props.movie.like;
+//const isLiked = props.movie.like;
 //.some(i => i._id === currentUser._id);
 
 // Создаём переменную, которую после зададим в `className` для кнопки лайка
     const movieLikeButtonClassName = (
-        `moviesCard__btn-save ${isLiked ? 'moviesCard__img-btn' : ''}`
+        `moviesCard__btn-save ${props.movie.like ? 'moviesCard__img-btn' : ''}`
     );
 
     function handleClick() {
@@ -33,10 +33,15 @@ const isLiked = props.movie.like;
 
     function handleLikeClick() {
         props.onMovieLike(props.movie)
+        props.movie.like = true;
+
     }
 
     function handleDeleteClick() {
-        props.onMovieDelete(props.movie);
+        console.log("delete delete   " + Object.entries(props.movie));
+        props.onMovieDelete(props.movie.id);
+        props.movie.like = false;
+
     }
 
 
@@ -48,9 +53,21 @@ const isLiked = props.movie.like;
       </div>
       <div className="moviesCard__container ">
         <img src={props.movie.image} alt="Фильм" className="moviesCard__image" />
-        <button className="moviesCard__btn "
-        onClick={handleDeleteClick} className={movieDeleteLikeButtonClassName}
-        onClick={handleLikeClick} className={movieLikeButtonClassName} /> 
+
+          { props.movie.like
+              ?
+              <button className="moviesCard__btn moviesCard__img-btn moviesCard__btn-delete"
+                      onClick={handleDeleteClick}
+              />
+              :
+
+              <button className="moviesCard__btn moviesCard__img-btn moviesCard__btn-save  moviesCard__btn-save moviesCard__img-btn"
+                      onClick={handleLikeClick}  />
+        }
+
+        {/*<button className="moviesCard__btn"*/}
+        {/*onClick={handleDeleteClick} className={movieDeleteLikeButtonClassName}*/}
+        {/*onClick={handleLikeClick} className={movieLikeButtonClassName} /> */}
       </div>
     </li>
   );

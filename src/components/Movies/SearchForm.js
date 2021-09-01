@@ -9,6 +9,7 @@ function SearchForm(props) {
   useFormWithValidation({});
 
   const [keyword, setKeyword] = useState("");
+  const [disableButton, setDisableButton] = useState(true);
   const [isShortMovies, setIsShortMovies] = useState(false);
 
   // function onCheckboxToggle(checked) {
@@ -19,6 +20,12 @@ function SearchForm(props) {
   function handleKeyword(evt) {
     handleChange(evt);
     setKeyword(evt.target.value);
+    if (evt.target.value.length > 0){
+        setDisableButton(false)
+    } else {
+        setDisableButton(true);
+
+    }
   }
 
   function handleSubmit(event) {
@@ -46,13 +53,9 @@ function SearchForm(props) {
           // disabled={isLoading}
 
         />
-        <button 
+        <button disabled =  {disableButton} hidden = {disableButton}
         className="search-form__button"
         type="submit"
-        className={`search-form__button ${
-          !isValid && "search-form__button_disable"
-      }`}
-      disabled={!isValid}
       >
 
       </button>

@@ -64,14 +64,10 @@ class MainApi {
         //     headers: this._headers
         // }
 
-        return fetch('http://localhost:8080/users/me', {
+        return fetch(this._baseUrl + 'users/me', {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-
-            }}
+            headers: this._headers
+        }
 
         )
             .then(res => {
@@ -99,14 +95,10 @@ class MainApi {
 
 
     getMovies(token) {
-        return fetch('http://localhost:8080/movies/', {
+        return fetch(this._baseUrl + 'movies/', {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-
-            }}
+            headers: this._headers
+            }
         )
             .then(res => {
                 return this._checkResponse(res)
@@ -116,14 +108,9 @@ class MainApi {
 
     putNewFilm(movie, token) {
 
-        return fetch('http://localhost:8080/movies/', {
+        return fetch(this._baseUrl + 'movies/', {
             method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-
-                },
+            headers: this._headers,
             body: JSON.stringify({
                 country: movie.country,
                 director: movie.director,
@@ -159,17 +146,17 @@ class MainApi {
             })
     }
 
-    putLike(moviesId, moviesUpdateLike) {
-        this.moviesUpdateLike = moviesUpdateLike;
-        return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
-            method: 'PUT',
-            headers: this._headers,
-        }
-        )
-            .then(res => {
-                return this._checkResponse(res)
-            })
-    }
+    // putLike(moviesId, moviesUpdateLike) {
+    //     this.moviesUpdateLike = moviesUpdateLike;
+    //     return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
+    //         method: 'PUT',
+    //         headers: this._headers,
+    //     }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         })
+    // }
 
 
     deleteLike(moviesId, moviesUpdateLike) {

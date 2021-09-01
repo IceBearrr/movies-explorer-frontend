@@ -72,7 +72,7 @@ console.log("props.currentCount " + props.currentCount);
               movies.map((movie, i) => (
 
             <MoviesCard movie={movie}
-              key={movie.id}
+              key={"save" + movie.id}
               // onCardClick={onCardClick}
               onMovieLike={props.onMovieLike}
               //           onMovieLike = {onMovieLike}

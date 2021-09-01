@@ -40,6 +40,8 @@ function App() {
     const [searchMovies, setSearchMovies] = React.useState([]);
 
     const [moviesSaved, setMoviesSaved] = React.useState([]);
+    const [searchMoviesSaved, setSearchMoviesSaved] = React.useState([]);
+
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [userData, setUserData] = React.useState('');
     const [statusApi, setStatusApi] = React.useState('');
@@ -113,21 +115,21 @@ function App() {
     //     setIsTooltipPopupOpen(false);
     // }
 
-    let  handleMovieLike =  (movie) =>  {
+    function  handleMovieLike (movie)  {
         const isLiked = movie.like;
-
-
         console.log("localStorage.getItem('jwt')" + localStorage.getItem('jwt'));
         if (!isLiked) {
             console.log("save");
-
-            mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((newMovie) => {
-                //setMovies((state) => state.map((c) => c.id === movie.id ? newMovie : c));
+            mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((movie) => {
+                // movie.like = true;
+                // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
+                setMoviesSaved(moviesSaved.push(movie))
                 console.log("save")
             }).catch((err) => console.log(err))
         } else {
-            movieApi.deleteLike(movie.id).then((newMovie) => {
-                //setMovies((state) => state.map((c) => c.id === movie.id ? newMovie : c));
+            movieApi.deleteLike(movie.id).then((movie) => {
+                // movie.like = false;
+                // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
                 console.log("unsave")
 
             }).catch((err) => console.log(err))
@@ -150,11 +152,27 @@ function App() {
     }
 
 
+    function handleSavedMovieSearch(movies, keyword) {
+        console.log("movies - " + movies );
+
+        const searchedMovies = searchMovie(movies, keyword);
+        console.log("ищем сохороненное - " + searchedMovies );
+
+        setSearchMoviesSaved(searchedMovies);
+
+    }
+
+
 
     function handleMovieDelete(movie) {
-        movieApi.deleteMovie(movie._id).then(() => {
-            setMovies(movies.filter((item) => item._id !== movie._id));
-        }).catch((err) => console.log(err));
+        console.log("movie delete" + movie);
+        mainApi.deleteFilm(movie).then(() => {
+            //setMoviesSaved(delete moviesSaved[movie.id])
+            // movie.like = false;
+            // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
+            console.log("unsave")
+        })
+            .catch((err) => console.log(err));
     }
 
     function handleUpdateUser(user) {
@@ -276,14 +294,14 @@ function App() {
                         year: item.year,
                         description: item.description,
                         image:  'https://api.nomoreparties.co' + item.image.url,
-                        trailer: item.trailerLink,
+                        trailer: item.trailerLink ? item.trailerLink : "http://google.com",
                         thumbnail: 'https://api.nomoreparties.co' + item.image.formats.thumbnail.url,
                         name: item.nameRU,
                         nameEN: item.nameEN
                             ? item.nameEN
                             : item.nameRU,
                         id: item.id,
-
+                        like: false,
                     }));
 
                     setMovies(anwserApi);
@@ -322,7 +340,8 @@ function App() {
                         thumbnail: item.thumbnail,
                         name: item.nameRU,
                         nameEN: item.nameEN,
-                        id: item.id,
+                        id: item.movieId,
+                        like: true,
                     }))
                 );
             })
@@ -332,7 +351,7 @@ function App() {
 
             console.log("movies2 - " + movies );  
 
-    }, [loggedIn]);
+    }, []);
 
     const handleResponse = data => {
         console.log("auth!!!!" + Object.entries(data))
@@ -415,6 +434,8 @@ function App() {
                             <Main />
                             <Footer />
                         </Route>
+
+
                         <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
                             // onEditProfile={handleEditProfileClick}
                             // onAddMovie={handleAddMovieClick}
@@ -428,32 +449,46 @@ function App() {
                             onLogin={handleLogin}
                                         onHandleButton={handleButton}
                         />
-                        <Route path="/movies">
-                            <Header onSignOut={handleSignOut} user={userData} onLogin={handleLogin} />
-                            <Movies  movies={movies}
-                                     currentCount={currentCount}
-                                     searchMovies={searchMovies}
-                                     onMovieLike={handleMovieLike}
-                                     onMovieDelete={handleMovieDelete}
-                                     onSubmitSearch={handleMovieSearch}
-                                     onHandleButton={handleButton}
 
-                            />
-                            <Footer />
-                        </Route>
 
-                        <Route path="/saved-movies">
-                            <Header onSignOut={handleSignOut} user={userData} onLogin={handleLogin} />
-                            <SavedMovies moviesSaved={moviesSaved}
+                        <ProtectedRoute exact path="/movies"
+                                        loggedIn={loggedIn} component={Movies}
+                                        onSignOut={handleSignOut}
+                                        user={userData}
+                                        onLogin={handleLogin}
+                                        movies={movies}
+                                        currentCount={currentCount}
+                                        searchMovies={searchMovies}
+                                        onMovieLike={handleMovieLike}
+                                        onMovieDelete={handleMovieDelete}
+                                        onSubmitSearch={handleMovieSearch}
+                                        onHandleButton={handleButton}
+
+                        />
+
+
+                        <ProtectedRoute exact path="/saved-movies"
+                                        loggedIn={loggedIn} component={SavedMovies}
+                                        onSignOut={handleSignOut}
+                            onSignOut={handleSignOut} user={userData} onLogin={handleLogin}
+                            moviesSaved={moviesSaved}
+                                         searchMoviesSaved={searchMoviesSaved}
                                          onMovieLike={handleMovieLike}
-                                         onMovieDelete={handleMovieDelete}/>
-                            <Footer />
-                        </Route>
+                                         onMovieDelete={handleMovieDelete}
+                                         onHandleSavedMovieSearch={handleSavedMovieSearch}
+                            />
 
-                        <Route path="/profile">
-                            <Header onSignOut={handleSignOut} user={userData} onLogin={handleLogin} />
-                            <Profile user={currentUser} onUpdateUser={handleUpdateUser} />
-                        </Route>
+
+                        <ProtectedRoute exact path="/profile"
+                                        loggedIn={loggedIn} component={Profile}
+                                        onSignOut={handleSignOut}
+                                        userData={userData}
+                                        onLogin={handleLogin}
+                                        user={currentUser}
+                                        onUpdateUser={handleUpdateUser}
+                        />
+
+
 
                         <Route path="/sign-up">
                             <Register onRegister={handleRegister} />

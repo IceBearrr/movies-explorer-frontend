@@ -1,12 +1,18 @@
 import React from "react";
+
 import SearchForm from "../Movies/SearchForm";
 import MoviesCardList from "../Movies/MoviesCardList";
 import { withRouter } from "react-router-dom";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 
 function Movies(props) {
 
   return (
+      <React.Fragment>
+          <Header onSignOut={props.onSignOut} user={props.user} onLogin={props.onLogin} />
+
     <div>
       <section className="movies">
         <SearchForm onSubmitSearch={props.onSubmitSearch}
@@ -22,6 +28,13 @@ function Movies(props) {
 
       </section>
     </div>
+
+        <Footer />
+
+
+      </React.Fragment>
+
+
   );
 }
 

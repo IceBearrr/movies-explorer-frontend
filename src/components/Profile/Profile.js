@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { CurrentUserContext, currentUser } from '../../context/CurrentUserContext';
 import useFormWithValidation from "../hook/useFormWithValidation";
 
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+
 function Profile(props) {
 
   const [name, setName] = React.useState("");
@@ -65,6 +68,9 @@ console.log("all change");
 
 
   return (
+      <React.Fragment>
+        <Header onSignOut={props.onSignOut} user={props.userData} onLogin={props.onLogin} />
+
     <div className="profile">
 
       { changeProfile
@@ -130,6 +136,12 @@ console.log("all change");
       }
       <button type="button" className="profile__logout-btn">Выйти из аккаунта</button>
     </div>
+
+  <Footer />
+
+
+</React.Fragment>
+
   );
 }
 
