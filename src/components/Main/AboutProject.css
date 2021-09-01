@@ -91,30 +91,36 @@
         padding-top: 60px;
         padding-bottom: 4px;
     }
+
     .about-project__name {
         width: 100%;
         padding-bottom: 16px;
         font-size: 18px;
         line-height: 22px;
     }
+
     .about-project__text {
         width: 100%;
         padding-bottom: 56px;
         font-size: 11px;
         line-height: 16px;
     }
+
     .about-project__time-line_green {
         font-size: 11px;
         line-height: 13px;
     }
+
     .about-project__time-line_grey {
         font-size: 11px;
         line-height: 13px;
     }
+
     .about-project__theme {
         font-size: 11px;
         line-height: 13px;
     }
+
     .about-project__schema {
         grid-template-columns: 1fr 2fr;
         grid-template-rows: 35px;

@@ -1,16 +1,16 @@
 import React from 'react';
 import MoviesCard from "../Movies/MoviesCard";
 // import SavedFilm from "../../images/save/save6d.svg";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 function MoviesCardList(props) {
-  //const {onMovieLike, onMovieDelete} = props;
+    //const {onMovieLike, onMovieDelete} = props;
     // const currentUser = React.useContext(CurrentUserContext);
     //const [currentCount, setMovies] = React.useState([]);
 
     let nothing = true;
-    if (props.searchMovies === "ничего не найдено"){
-        props.searchMovies="";
+    if (props.searchMovies === "ничего не найдено") {
+        props.searchMovies = "";
         let nothing = false;
     }
 
@@ -47,44 +47,43 @@ function MoviesCardList(props) {
 //         //setPreloader(true);
 //     }
     let movies = props.searchMovies.slice(0, props.currentCount)
-    let more =  (props.searchMovies.length > props.currentCount);
-console.log("props.currentCount " + props.currentCount);
+    let more = (props.searchMovies.length > props.currentCount);
     //handleButton();
 
-  return (
-    <div className="moviesCardBox" >
+    return (
+        <div className="moviesCardBox">
 
-        { !nothing
-            ?
-            <ul> ничего не найдено </ul>
-            : null
-        }
+            {!nothing
+                ?
+                <ul> ничего не найдено </ul>
+                : null
+            }
 
-        { nothing
-            ?
-        <ul className="moviesCardList">
-        {/* <ul 
+            {nothing
+                ?
+                <ul className="moviesCardList">
+                    {/* <ul
         className="moviesCard"
         > */}
-          {
+                    {
 
 
-              movies.map((movie, i) => (
+                        movies.map((movie, i) => (
 
-            <MoviesCard movie={movie}
-              key={"save" + movie.id}
-              // onCardClick={onCardClick}
-              onMovieLike={props.onMovieLike}
-              //           onMovieLike = {onMovieLike}
-              onMovieDelete={props.onMovieDelete} />
-          ))
+                            <MoviesCard movie={movie}
+                                        key={"save" + movie.id}
+                                // onCardClick={onCardClick}
+                                        onMovieLike={props.onMovieLike}
+                                //           onMovieLike = {onMovieLike}
+                                        onMovieDelete={props.onMovieDelete}/>
+                        ))
 
-          }
-        </ul>
-            : null
-        }
+                    }
+                </ul>
+                : null
+            }
 
-{/* 
+            {/*
         <MoviesCard
           childrenImageSave={
             <img
@@ -113,23 +112,21 @@ console.log("props.currentCount " + props.currentCount);
         />
       
         */}
-     {/* </section> */}
+            {/* </section> */}
 
-        { more
-            ?
-            <div className="movies__btn-more">
-                <button className="movies__more" type="button" onClick={props.onHandleButton}> Ещё </button>
-            </div>
-            : null
-        }
-
-
-
-    </div>
+            {more
+                ?
+                <div className="movies__btn-more">
+                    <button className="movies__more" type="button" onClick={props.onHandleButton}> Ещё</button>
+                </div>
+                : null
+            }
 
 
+        </div>
 
-  );
+
+    );
 }
 
 export default withRouter(MoviesCardList);

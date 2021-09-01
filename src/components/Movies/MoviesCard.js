@@ -1,13 +1,11 @@
 import React from 'react';
-import Kadr from "../../images/card/6.svg";
 
 const CurrentUserContext = React.createContext();
 
 function MoviesCard(props) {
 
 
-
-  const currentUser = React.useContext(CurrentUserContext);
+    const currentUser = React.useContext(CurrentUserContext);
 
     // Определяем, являемся ли мы владельцем текущего фильма
     // const isOwn = props.movie.owner._id === currentUser._id;
@@ -38,39 +36,39 @@ function MoviesCard(props) {
     }
 
     function handleDeleteClick() {
-        console.log("delete delete   " + Object.entries(props.movie));
         props.onMovieDelete(props.movie.id);
         props.movie.like = false;
 
     }
 
 
-  return (
-    <li  className="moviesCard" >
-      <div className="moviesCard__movieInfo">
-        <p className="moviesCard__movieName">{props.movie.name}</p>
-        <p className="moviesCard__movieDuration">{props.movie.duration}</p>
-      </div>
-      <div className="moviesCard__container ">
-        <img src={props.movie.image} alt="Фильм" className="moviesCard__image" />
+    return (
+        <li className="moviesCard">
+            <div className="moviesCard__movieInfo">
+                <p className="moviesCard__movieName">{props.movie.name}</p>
+                <p className="moviesCard__movieDuration">{props.movie.duration}</p>
+            </div>
+            <div className="moviesCard__container ">
+                <img src={props.movie.image} alt="Фильм" className="moviesCard__image"/>
 
-          { props.movie.like
-              ?
-              <button className="moviesCard__btn moviesCard__img-btn moviesCard__btn-delete"
-                      onClick={handleDeleteClick}
-              />
-              :
+                {props.movie.like
+                    ?
+                    <button className="moviesCard__btn moviesCard__img-btn moviesCard__btn-delete"
+                            onClick={handleDeleteClick}
+                    />
+                    :
 
-              <button className="moviesCard__btn moviesCard__img-btn moviesCard__btn-save  moviesCard__btn-save moviesCard__img-btn"
-                      onClick={handleLikeClick}  />
-        }
+                    <button
+                        className="moviesCard__btn moviesCard__img-btn moviesCard__btn-save  moviesCard__btn-save moviesCard__img-btn"
+                        onClick={handleLikeClick}/>
+                }
 
-        {/*<button className="moviesCard__btn"*/}
-        {/*onClick={handleDeleteClick} className={movieDeleteLikeButtonClassName}*/}
-        {/*onClick={handleLikeClick} className={movieLikeButtonClassName} /> */}
-      </div>
-    </li>
-  );
+                {/*<button className="moviesCard__btn"*/}
+                {/*onClick={handleDeleteClick} className={movieDeleteLikeButtonClassName}*/}
+                {/*onClick={handleLikeClick} className={movieLikeButtonClassName} /> */}
+            </div>
+        </li>
+    );
 }
 
 export default MoviesCard;

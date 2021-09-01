@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
-function BurgerMenu({ isOpen, closeHandler }) {
+function BurgerMenu({isOpen, closeHandler}) {
     return (
         <div className={`burger-menu ${isOpen ? 'burger-menu_is-open' : ''}`}>
             <button
@@ -39,7 +39,7 @@ function BurgerMenu({ isOpen, closeHandler }) {
             </div>
 
             <NavLink to="/profile" className="profile-btn">
-                <div className="profile-btn__image" />
+                <div className="profile-btn__image"/>
             </NavLink>
         </div>
     );

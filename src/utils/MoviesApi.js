@@ -16,151 +16,145 @@ export const MOVIEAPI_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 
 
 class MovieApi {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
-  }
-
-  _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
+    constructor({baseUrl, headers}) {
+        this._baseUrl = baseUrl;
+        this._headers = headers;
     }
-    return Promise.reject(`Ошибка ${res.status}`);
-  }
 
-
-  getMovies() {
-    return fetch(this._baseUrl, {
-      headers: this._headers
-    }
-    )
-      .then(res => {
-        return this._checkResponse(res)
-      });
-  }
-
-  //
-  //
-  // putNewFilm(country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId) {
-  //
-  //   return fetch(this._baseUrl + 'movies', {
-  //         method: 'POST',
-  //         headers: this._headers,
-  //         body: JSON.stringify({
-  //           //country: country,
-  //           //director: director,
-  //           //owner: owner,
-  //           //duration: duration,
-  //           //year: year,
-  //           //description: description,
-  //           //nameEN: nameEN,
-  //           //thumbnail: thumbnail,
-  //           duration: duration,
-  //           image: image,
-  //           trailer: trailer,
-  //           nameRU: nameRU,
-  //           movieId: movieId,
-  //           //owner: owner,
-  //         })
-  //
-  //       }
-  //   )
-  //       .then(res => {
-  //         return this._checkResponse(res)
-  //       })
-  //
-  // }
-
-
-
-
-
-
-  getMoviesSearch() {
-    return fetch(this._baseUrl, {
-          headers: this._headers
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json();
         }
-    )
-        .then(res => {
-          return this._checkResponse(res)
-        });
-  }
-
-  putNewFilm(country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId) {
-
-    return fetch(this._baseUrl + 'movies', {
-      method: 'POST',
-      headers: this._headers,
-      body: JSON.stringify({
-        country: country,
-        director: director,
-        duration: duration,
-        year: year,
-        description: description,
-        image: image,
-        trailer: trailer,
-        nameRU: nameRU,
-        nameEN: nameEN,
-        thumbnail: thumbnail,
-        movieId: movieId,
-      })
-
+        return Promise.reject(`Ошибка ${res.status}`);
     }
-    )
-      .then(res => {
-        return this._checkResponse(res)
-      })
-
-  }
 
 
-  deleteFilm(moviesId) {
-    return fetch(this._baseUrl + 'movies/:' + moviesId, {
-      method: 'DELETE',
-      headers: this._headers,
-
+    getMovies() {
+        return fetch(this._baseUrl, {
+                headers: this._headers
+            }
+        )
+            .then(res => {
+                return this._checkResponse(res)
+            });
     }
-    )
-      .then(res => {
-        return this._checkResponse(res)
-      })
-  }
 
-  putLike(moviesId, moviesUpdateLike) {
-    this.moviesUpdateLike = moviesUpdateLike;
-    return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
-      method: 'PUT',
-      headers: this._headers,
-    }
-    )
-      .then(res => {
-        return this._checkResponse(res)
-      })
-  }
+    //
+    //
+    // putNewFilm(country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId) {
+    //
+    //   return fetch(this._baseUrl + 'movies', {
+    //         method: 'POST',
+    //         headers: this._headers,
+    //         body: JSON.stringify({
+    //           //country: country,
+    //           //director: director,
+    //           //owner: owner,
+    //           //duration: duration,
+    //           //year: year,
+    //           //description: description,
+    //           //nameEN: nameEN,
+    //           //thumbnail: thumbnail,
+    //           duration: duration,
+    //           image: image,
+    //           trailer: trailer,
+    //           nameRU: nameRU,
+    //           movieId: movieId,
+    //           //owner: owner,
+    //         })
+    //
+    //       }
+    //   )
+    //       .then(res => {
+    //         return this._checkResponse(res)
+    //       })
+    //
+    // }
 
 
-  deleteLike(moviesId, moviesUpdateLike) {
-    this.moviesUpdateLike = moviesUpdateLike;
-    return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
-      method: 'DELETE',
-      headers: this._headers,
+    // getMoviesSearch() {
+    //     return fetch(this._baseUrl, {
+    //             headers: this._headers
+    //         }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         });
+    // }
+    //
+    // putNewFilm(country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId) {
+    //
+    //     return fetch(this._baseUrl + 'movies', {
+    //             method: 'POST',
+    //             headers: this._headers,
+    //             body: JSON.stringify({
+    //                 country: country,
+    //                 director: director,
+    //                 duration: duration,
+    //                 year: year,
+    //                 description: description,
+    //                 image: image,
+    //                 trailer: trailer,
+    //                 nameRU: nameRU,
+    //                 nameEN: nameEN,
+    //                 thumbnail: thumbnail,
+    //                 movieId: movieId,
+    //             })
+    //
+    //         }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         })
+    //
+    // }
 
-    }
-    )
-      .then(res => {
-        return this._checkResponse(res)
-      })
-  }
+    //
+    // deleteFilm(moviesId) {
+    //     return fetch(this._baseUrl + 'movies/:' + moviesId, {
+    //             method: 'DELETE',
+    //             headers: this._headers,
+    //
+    //         }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         })
+    // }
+    //
+    // putLike(moviesId, moviesUpdateLike) {
+    //     this.moviesUpdateLike = moviesUpdateLike;
+    //     return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
+    //             method: 'PUT',
+    //             headers: this._headers,
+    //         }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         })
+    // }
+    //
+    //
+    // deleteLike(moviesId, moviesUpdateLike) {
+    //     this.moviesUpdateLike = moviesUpdateLike;
+    //     return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
+    //             method: 'DELETE',
+    //             headers: this._headers,
+    //
+    //         }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         })
+    // }
 
 }
 
 const movieApi = new MovieApi({
-  // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-22/',
-  baseUrl: 'https://api.nomoreparties.co/beatfilm-movies/',
-  headers: {
-    // authorization: '31859db2-75be-407c-8c24-8ed9ee09fde1',
-    'Content-Type': 'application/json'
-  }
+    baseUrl: 'https://api.nomoreparties.co/beatfilm-movies/',
+    headers: {
+        'Content-Type': 'application/json'
+    }
 });
 
 export default movieApi;

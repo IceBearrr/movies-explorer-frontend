@@ -9,10 +9,10 @@ export function register(name, email, password) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "name": name,
-            "email": email,
-            "password": password,
-        }
+                "name": name,
+                "email": email,
+                "password": password,
+            }
         )
     })
         .then(checkResponse);
@@ -30,7 +30,7 @@ export const authorize = (email, password) => {
             "email": email,
             "password": password,
         })
-    }) .then(checkResponse);
+    }).then(checkResponse);
 };
 
 export const checkToken = (token) => {
@@ -65,10 +65,9 @@ class MainApi {
         // }
 
         return fetch(this._baseUrl + 'users/me', {
-            method: 'GET',
-            headers: this._headers
-        }
-
+                method: 'GET',
+                headers: this._headers
+            }
         )
             .then(res => {
 
@@ -78,14 +77,14 @@ class MainApi {
 
     updateProfile(user) {
         return fetch(this._baseUrl + 'users/me/', {
-            method: 'PATCH',
-            headers: this._headers,
-            body: JSON.stringify({
-                name: user.name,
-                email: user.email
-                
-            })
-        }
+                method: 'PATCH',
+                headers: this._headers,
+                body: JSON.stringify({
+                    name: user.name,
+                    email: user.email
+
+                })
+            }
         )
             .then(res => {
                 return this._checkResponse(res);
@@ -96,8 +95,8 @@ class MainApi {
 
     getMovies(token) {
         return fetch(this._baseUrl + 'movies/', {
-            method: 'GET',
-            headers: this._headers
+                method: 'GET',
+                headers: this._headers
             }
         )
             .then(res => {
@@ -109,23 +108,23 @@ class MainApi {
     putNewFilm(movie, token) {
 
         return fetch(this._baseUrl + 'movies/', {
-            method: 'POST',
-            headers: this._headers,
-            body: JSON.stringify({
-                country: movie.country,
-                director: movie.director,
-                duration: movie.duration,
-                year: movie.year,
-                description: movie.description,
-                image: movie.image,
-                trailer: movie.trailer,
-                thumbnail: movie.thumbnail,
-                movieId: movie.id,
-                nameRU: movie.name,
-                nameEN: movie.nameEN
-            })
+                method: 'POST',
+                headers: this._headers,
+                body: JSON.stringify({
+                    country: movie.country,
+                    director: movie.director,
+                    duration: movie.duration,
+                    year: movie.year,
+                    description: movie.description,
+                    image: movie.image,
+                    trailer: movie.trailer,
+                    thumbnail: movie.thumbnail,
+                    movieId: movie.id,
+                    nameRU: movie.name,
+                    nameEN: movie.nameEN
+                })
 
-        }
+            }
         )
             .then(res => {
                 return this._checkResponse(res)
@@ -136,10 +135,10 @@ class MainApi {
 
     deleteFilm(moviesId) {
         return fetch(this._baseUrl + 'movies/' + moviesId, {
-            method: 'DELETE',
-            headers: this._headers,
+                method: 'DELETE',
+                headers: this._headers,
 
-        }
+            }
         )
             .then(res => {
                 return this._checkResponse(res)
@@ -159,25 +158,24 @@ class MainApi {
     // }
 
 
-    deleteLike(moviesId, moviesUpdateLike) {
-        this.moviesUpdateLike = moviesUpdateLike;
-        return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
-            method: 'DELETE',
-            headers: this._headers,
+    // deleteLike(moviesId, moviesUpdateLike) {
+    //     this.moviesUpdateLike = moviesUpdateLike;
+    //     return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
+    //             method: 'DELETE',
+    //             headers: this._headers,
+    //
+    //         }
+    //     )
+    //         .then(res => {
+    //             return this._checkResponse(res)
+    //         })
+    // }
 
-        }
-        )
-            .then(res => {
-                return this._checkResponse(res)
-            })
-    }
 
-
-    // другие методы работы с API
 }
 
 const mainApi = new MainApi({
-    baseUrl: 'http://localhost:8080/',
+    baseUrl: 'http://api.icebear-movies.nomoredomains.club',
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
