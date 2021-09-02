@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:8080';
+export const BASE_URL = 'http://api.icebear-movies.nomoredomains.club';
 
 const checkResponse = (response) => response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status} ${response} `)
 
@@ -59,24 +59,25 @@ class MainApi {
         return Promise.reject(`Ошибка ${res.status}`);
     }
 
-    getUserInfo(token) {
+    getUserInfo() {
         // return fetch(this._baseUrl + 'users/me', {
         //     headers: this._headers
         // }
 
-        return fetch(this._baseUrl + 'users/me', {
+        return fetch(this._baseUrl + '/users/me', {
                 method: 'GET',
                 headers: this._headers
             }
         )
             .then(res => {
+                console.log(" res api user " + Object.entries(res));
 
                 return this._checkResponse(res)
             })
     }
 
     updateProfile(user) {
-        return fetch(this._baseUrl + 'users/me/', {
+        return fetch(this._baseUrl + '/users/me/', {
                 method: 'PATCH',
                 headers: this._headers,
                 body: JSON.stringify({
@@ -93,21 +94,23 @@ class MainApi {
     }
 
 
-    getMovies(token) {
-        return fetch(this._baseUrl + 'movies/', {
+    getMovies() {
+        return fetch(this._baseUrl + '/movies/', {
                 method: 'GET',
                 headers: this._headers
             }
         )
             .then(res => {
+                console.log(" res api movies " + res + Object.entries(res));
+
                 return this._checkResponse(res)
             });
     }
 
 
-    putNewFilm(movie, token) {
+    putNewFilm(movie) {
 
-        return fetch(this._baseUrl + 'movies/', {
+        return fetch(this._baseUrl + '/movies/', {
                 method: 'POST',
                 headers: this._headers,
                 body: JSON.stringify({
@@ -134,7 +137,7 @@ class MainApi {
 
 
     deleteFilm(moviesId) {
-        return fetch(this._baseUrl + 'movies/' + moviesId, {
+        return fetch(this._baseUrl + '/movies/' + moviesId, {
                 method: 'DELETE',
                 headers: this._headers,
 
@@ -177,9 +180,10 @@ class MainApi {
 const mainApi = new MainApi({
     baseUrl: 'http://api.icebear-movies.nomoredomains.club',
     headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+        // authorization: localStorage.getItem('jwt'),
+        // 'Content-Type': 'application/json'
     }
 });
 

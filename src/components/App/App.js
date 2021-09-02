@@ -28,7 +28,7 @@ function App() {
     const [moviesSaved, setMoviesSaved] = React.useState([]);
     const [searchMoviesSaved, setSearchMoviesSaved] = React.useState([]);
 
-    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [loggedIn, setLoggedIn] = React.useState('');
     const [userData, setUserData] = React.useState('');
     const [statusApi, setStatusApi] = React.useState('');
 
@@ -51,22 +51,12 @@ function App() {
 
 
     function handleMovieLike(movie) {
-        const isLiked = movie.like;
-        if (!isLiked) {
             mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((movie) => {
                 // movie.like = true;
                 // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
-                setMoviesSaved(moviesSaved.push(movie))
+                //setMoviesSaved(moviesSaved[moviesSaved.length] = movie)
             }).catch((err) => console.log(err))
-        } else {
-            movieApi.deleteLike(movie.id).then((movie) => {
-                // movie.like = false;
-                // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
-                console.log("unsave")
 
-            }).catch((err) => console.log(err))
-        }
-        ;
     }
 
     function handleMovieSearch(movies, keyword) {
@@ -84,6 +74,43 @@ function App() {
         const searchedMovies = searchMovie(movies, keyword);
         setSearchMoviesSaved(searchedMovies);
     }
+
+    //
+    // function getSavedMovies(){
+    //     mainApi.getMovies(localStorage.getItem('jwt'))
+    //         .then((data) => {
+    //             setMoviesSaved(
+    //                 data.data.map((item) => ({
+    //                     country: item.country,
+    //                     director: item.director,
+    //                     duration: item.duration,
+    //                     year: item.year,
+    //                     description: item.description,
+    //                     image: item.image,
+    //                     trailer: item.trailer,
+    //                     thumbnail: item.thumbnail,
+    //                     name: item.nameRU,
+    //                     nameEN: item.nameEN,
+    //                     id: item.movieId,
+    //                     like: true,
+    //                 }))
+    //             );
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
+
+
+    // function getUser() {
+    //     mainApi.getUserInfo(localStorage.getItem('jwt'))
+    //         .then((result) => {
+    //             setCurrentUser(result.data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
 
 
     function handleMovieDelete(movie) {
@@ -112,7 +139,7 @@ function App() {
     }, [loggedIn])
 
 
-    let handleButton = () => {
+    function handleButton()  {
 
         let step;
         const windowSize = window.innerWidth
@@ -132,97 +159,103 @@ function App() {
     }
 
 
-    React.useEffect(() => {
-        let first, step;
-        const windowSize = window.innerWidth
-        if (windowSize > 1280) {
-            first = 12;
-        } else if (
-            windowSize > 768 &&
-            windowSize <= 1280
-        ) {
-            first = 8;
-        } else {
-            first = 5;
-        }
+    useEffect(() => {
+        if (loggedIn) {
+            //getSavedMovies();
+            //getUser();
 
-        setCurrentCount(first);
-
-
-        mainApi.getUserInfo(localStorage.getItem('jwt'))
-            .then((result) => {
-                setCurrentUser(result.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-
-        const movies = JSON.parse(localStorage.getItem("movies"));
-        let anwserApi;
-        if (movies) {
-            setMovies(movies);
-            const searchMovies = JSON.parse(
-                localStorage.getItem("searchMovies")
-            );
-            if (searchMovies) {
-                setSearchMovies(searchMovies);
-            }
-        } else {
-            movieApi.getMovies()
-                .then((data, baseUrl) => {
-                    anwserApi = data.map((item) => ({
-                        country: item.country,
-                        director: item.director,
-                        duration: item.duration,
-                        year: item.year,
-                        description: item.description,
-                        image: 'https://api.nomoreparties.co' + item.image.url,
-                        trailer: item.trailerLink ? item.trailerLink : "http://google.com",
-                        thumbnail: 'https://api.nomoreparties.co' + item.image.formats.thumbnail.url,
-                        name: item.nameRU,
-                        nameEN: item.nameEN
-                            ? item.nameEN
-                            : item.nameRU,
-                        id: item.id,
-                        like: false,
-                    }));
-
-                    setMovies(anwserApi);
-
+            mainApi.getMovies()
+                .then((data) => {
+                    setMoviesSaved(
+                        data.data.map((item) => ({
+                            country: item.country,
+                            director: item.director,
+                            duration: item.duration,
+                            year: item.year,
+                            description: item.description,
+                            image: item.image,
+                            trailer: item.trailer,
+                            thumbnail: item.thumbnail,
+                            name: item.nameRU,
+                            nameEN: item.nameEN,
+                            id: item.movieId,
+                            like: true,
+                        }))
+                    );
                 })
-                .then(() =>
-                    localStorage.setItem('movies', JSON.stringify(anwserApi)))
                 .catch((err) => {
+
                     console.log(err);
                 });
 
 
+            mainApi.getUserInfo(localStorage.getItem('jwt'))
+                .then((result) => {
+                    setCurrentUser(result.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            let first, step;
+            const windowSize = window.innerWidth
+            if (windowSize > 1280) {
+                first = 12;
+            } else if (
+                windowSize > 768 &&
+                windowSize <= 1280
+            ) {
+                first = 8;
+            } else {
+                first = 5;
+            }
+
+            setCurrentCount(first);
+
+            const movies = JSON.parse(localStorage.getItem("movies"));
+            let anwserApi;
+            if (movies) {
+                setMovies(movies);
+                const searchMovies = JSON.parse(
+                    localStorage.getItem("searchMovies")
+                );
+                if (searchMovies) {
+                    setSearchMovies(searchMovies);
+                }
+            } else {
+                movieApi.getMovies()
+                    .then((data, baseUrl) => {
+                        anwserApi = data.map((item) => ({
+                            country: item.country,
+                            director: item.director,
+                            duration: item.duration,
+                            year: item.year,
+                            description: item.description,
+                            image: 'https://api.nomoreparties.co' + item.image.url,
+                            trailer: item.trailerLink ? item.trailerLink : "http://google.com",
+                            thumbnail: 'https://api.nomoreparties.co' + item.image.formats.thumbnail.url,
+                            name: item.nameRU,
+                            nameEN: item.nameEN
+                                ? item.nameEN
+                                : item.nameRU,
+                            id: item.id,
+                            like: false,
+                        }));
+
+                        setMovies(anwserApi);
+
+                    })
+                    .then(() =>
+                        localStorage.setItem('movies', JSON.stringify(anwserApi)))
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+
+            }
+
         }
 
-
-        mainApi.getMovies(localStorage.getItem('jwt'))
-            .then((data) => {
-                setMoviesSaved(
-                    data.data.map((item) => ({
-                        country: item.country,
-                        director: item.director,
-                        duration: item.duration,
-                        year: item.year,
-                        description: item.description,
-                        image: item.image,
-                        trailer: item.trailer,
-                        thumbnail: item.thumbnail,
-                        name: item.nameRU,
-                        nameEN: item.nameEN,
-                        id: item.movieId,
-                        like: true,
-                    }))
-                );
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     }, [loggedIn]);
 
     const handleResponse = data => {

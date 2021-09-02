@@ -31,5 +31,6 @@
         column-gap: 16px;
         margin: 40px 10px 50px;
         width: calc(100% - 2 * 10px);
+        padding-left: 0;
     }
 }

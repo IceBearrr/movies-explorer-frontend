@@ -25,21 +25,26 @@ function MoviesCard(props) {
         `moviesCard__btn-save ${props.movie.like ? 'moviesCard__img-btn' : ''}`
     );
 
-    function handleClick() {
-        props.onMovieClick(props.movie)
-    }
+    const [movieLike, setMovie] = React.useState(props.movie.like);
+
+    // function handleClick() {
+    //     props.onMovieClick(props.movie)
+    // }
 
     function handleLikeClick() {
         props.onMovieLike(props.movie)
         props.movie.like = true;
+        setMovie(true);
 
     }
 
     function handleDeleteClick() {
         props.onMovieDelete(props.movie.id);
         props.movie.like = false;
+        setMovie(false);
 
     }
+
 
 
     return (
@@ -51,7 +56,7 @@ function MoviesCard(props) {
             <div className="moviesCard__container ">
                 <img src={props.movie.image} alt="Фильм" className="moviesCard__image"/>
 
-                {props.movie.like
+                {movieLike
                     ?
                     <button className="moviesCard__btn moviesCard__img-btn moviesCard__btn-delete"
                             onClick={handleDeleteClick}
