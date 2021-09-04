@@ -5,6 +5,8 @@ import {withRouter} from "react-router-dom";
 
 
 function SavedMoviesCardList(props) {
+
+
     let movies;
 
     if (props.shortMoviesSaved.length > 0) {
@@ -21,72 +23,45 @@ function SavedMoviesCardList(props) {
     }
 
     return (
-        <div className="moviesCardBox">
+        <div>
+        {
+    !nothing
+        ?
+        <div className="moviesNotFound">
+            <h2> Ничего не найдено </h2>
+        </div>
+        : null
+}
+
+    {
+        nothing
+            ?
+
+                <div className="moviesCardBox">
+
+                    <ul className="moviesCardList">
+                        {
+                            movies.map((movie, i) => (
+
+                                <MoviesCard movie={movie}
+                                            key={"save" + movie.id}
+                                            hidden={movie.like}
+                                    // onCardClick={onCardClick}
+                                            //onMovieLike={props.onMovieLike}
+                                    //           onMovieLike = {onMovieLike}
+                                            onMovieDelete={props.onMovieDelete}
+                                />
+                            ))
+                        }
+                    </ul>
+                </div>
 
 
-            {!nothing
-                ?
-                <ul className="moviesCardList">
-                    ничего не найдено
-                </ul>
-                : null
-            }
-
-            {nothing
-                ?
-                <ul className="moviesCardList">
-                    {
-                        movies.map((movie, i) => (
-
-                            <MoviesCard movie={movie}
-                                        key={"save" + movie.id}
-                                // onCardClick={onCardClick}
-                                        onMovieLike={props.onMovieLike}
-                                //           onMovieLike = {onMovieLike}
-                                        onMovieDelete={props.onMovieDelete}
-                            />
-                        ))
-
-                    }
-                </ul>
-                : null
-            }
-            {/*
-        <MoviesCard
-          childrenImageSave={
-            <img
-              src={SavedFilm}
-              alt="Сохранено"
-              className="moviesCard__img-btn"
-            />
-          }
-        />
-        <MoviesCard
-          childrenButtonDelete={
-            <button
-              type="button"
-              className="moviesCard__btn-delete"
-            />
-
-          }
-        />
-        <MoviesCard
-          childrenButtonSave={
-            <button
-              type="button"
-              className="moviesCard__btn-save"
-            />
-          }
-        />
-      
-        */}
-            {/* </section> */}
-
-
+            : null
+    }
         </div>
 
-
-    );
+    )
 }
 
 export default withRouter(SavedMoviesCardList);

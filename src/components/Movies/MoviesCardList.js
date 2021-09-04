@@ -13,30 +13,39 @@ function MoviesCardList(props) {
         movies = props.shortMoviesSaved;
     } else {
         movies = props.searchMovies;
-
     }
 
+
+    //тест
+    //movies = props.movies;
+
+
     let nothing = true;
-    if (props.searchMovies === "ничего не найдено") {
-        props.searchMovies = "";
+    if (movies === "ничего не найдено") {
+        movies = "";
         nothing = false;
     }
 
-    movies = props.movies.slice(0, props.currentCount)
-    let more = (props.movies.length > props.currentCount);
+    let more = (movies.length > props.currentCount);
+    movies = movies.slice(0, props.currentCount)
+
     //handleButton();
+    console.log("movies.length " +movies.length +  "props.currentCount " + props.currentCount);
 
     return (
-        <div className="moviesCardBox">
+        <div >
 
             {!nothing
                 ?
-                <ul> ничего не найдено </ul>
+                <div className="moviesNotFound">
+                    <h2> Ничего не найдено </h2>
+                </div>
                 : null
             }
 
             {nothing
                 ?
+                <div className="moviesCardBox">
                 <ul className="moviesCardList">
                     {
                         movies.map((movie, i) => (
@@ -52,6 +61,7 @@ function MoviesCardList(props) {
 
                     }
                 </ul>
+                </div>
                 : null
             }
 

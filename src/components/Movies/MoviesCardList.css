@@ -1,3 +1,10 @@
+.moviesNotFound {
+    color: white;
+    margin: 70px auto 50px;
+    justify-content: center;
+    display: grid;
+}
+
 .moviesCardList {
     justify-content: center;
     background-color: #202020;
@@ -22,6 +29,7 @@
     .moviesCardList {
         margin: 70px auto 50px;
         padding-bottom: 140px;
+        padding-left: 0;
     }
 }
 
@@ -31,6 +39,5 @@
         column-gap: 16px;
         margin: 40px 10px 50px;
         width: calc(100% - 2 * 10px);
-        padding-left: 0;
     }
 }

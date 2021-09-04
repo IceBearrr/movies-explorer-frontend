@@ -10,26 +10,6 @@ function MoviesCard(props) {
         `${location ? 'moviesCard__btn moviesCard__img-btn moviesCard__btn-delete' : 'moviesCard__btn moviesCard__img-btn moviesCard__btn-saved'}`
     );
 
-    const currentUser = React.useContext(CurrentUserContext);
-
-    // Определяем, являемся ли мы владельцем текущего фильма
-    // const isOwn = props.movie.owner._id === currentUser._id;
-
-
-    // Создаём переменную, которую после зададим в `className` для кнопки удаления
-    const movieDeleteLikeButtonClassName = (
-        `moviesCard__img-btn ${props.movie.like ? 'moviesCard__btn-delete' : ' '}`
-    );
-
-    // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-    //const isLiked = props.movie.like;
-    //.some(i => i._id === currentUser._id);
-
-    // Создаём переменную, которую после зададим в `className` для кнопки лайка
-    const movieLikeButtonClassName = (
-        `moviesCard__btn-save ${props.movie.like ? 'moviesCard__img-btn' : ''}`
-    );
-
     const [movieLike, setMovie] = React.useState(props.movie.like);
 
     function handleLikeClick() {
@@ -58,12 +38,10 @@ function MoviesCard(props) {
                 {movieLike
                     ?
                     <button
-                        //className='moviesCard__btn moviesCard__img-btn moviesCard__btn-delete'
                         className={deleteButtonClassName}
                         onClick={handleDeleteClick}
                     />
                     :
-
                     <button
                         className="moviesCard__btn moviesCard__img-btn moviesCard__btn-save "
                         onClick={handleLikeClick}/>

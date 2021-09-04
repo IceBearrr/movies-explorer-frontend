@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Route, Switch, useHistory} from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Header from '../Header/Header';
 import Main from './../Main/Main';
 import Footer from '../Footer/Footer';
@@ -14,7 +14,7 @@ import movieApi from '../../utils/MoviesApi'
 import mainApi, * as auth from '../../utils/MainApi'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-import {CurrentUserContext} from '../../context/CurrentUserContext';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
 
 
     const history = useHistory();
+    let location = useLocation().pathname;
 
 
     function shortMoviesSearch(data, isShortMovies) {
@@ -76,6 +77,22 @@ function App() {
     function handleMovieLike(movie) {
         mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((movie) => {
             getSavedMovies();
+
+
+            for (let k in movies) //TODO: покрасивее
+                if (movies[k].id === movie.id) {
+                    movies[k].like = true;
+                }
+
+            for (let k in searchMovies) //TODO: покрасивее
+                if (searchMovies[k].id === movie.id) {
+                    searchMovies[k].like = true;
+                }
+
+
+            setMovies(movies);
+
+            setSearchMovies(searchMovies);
             // movie.like = true;
             // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
             //setMoviesSaved(moviesSaved[moviesSaved.length] = movie)
@@ -86,7 +103,7 @@ function App() {
     function handleMovieSearch(movies, keyword) {
         const searchedMovies = searchMovie(movies, keyword)
         setSearchMovies(searchedMovies);
-
+        console.log("ищем кинчик");
         localStorage.setItem(
             'searchMovies',
             JSON.stringify(searchedMovies)
@@ -144,8 +161,27 @@ function App() {
 
 
     function handleMovieDelete(movie) {
-        mainApi.deleteFilm(movie).then(() => {
+        mainApi.deleteFilm(movie, localStorage.getItem('jwt')).then(() => {
+
+            for (let k in movies) //TODO: покрасивее
+                if (movies[k].id === movie.id) {
+                    movies[k].like = false;
+                }
+
+            for (let k in searchMovies) //TODO: покрасивее
+                if (searchMovies[k].id === movie.id) {
+                    searchMovies[k].like = false;
+                }
+
+            setMovies(movies);
+
+            setSearchMovies(searchMovies);
+
+
+            console.log("удоли" + movies);
+
             getSavedMovies();
+
             //setMoviesSaved(delete moviesSaved[movie.id])
             // movie.like = false;
             // setMovies(movies.filter((item) => item._id !== movie._id));
@@ -162,7 +198,7 @@ function App() {
     // }
 
     function handleUpdateUser(user) {
-        mainApi.updateUser(user).then(() => {
+        mainApi.updateUser(user, localStorage.getItem('jwt')).then(() => {
             alert("Данные обновленны!");
         })
             .catch((err) => console.log(err));
@@ -183,16 +219,16 @@ function App() {
     function handleButton() {
 
         let step;
-        const windowSize = window.innerWidth
-        if (windowSize > 1280) {
-            step = 3;
-        } else if (
-            windowSize > 768 &&
+        const windowSize = window.innerWidth;
+        console.log("windowSize " + windowSize);
 
+        if (windowSize >= 1280) {
+            step = 3 - currentCount % 3;
+            console.log("currentCount " + currentCount + " 3 step3 - " + step)
+        } else if (windowSize >= 768 && windowSize < 1280) {
+            step = 2 - currentCount % 2;
+            console.log("currentCount " + currentCount + " 2 step2 - " + step)
 
-            windowSize <= 1280
-        ) {
-            step = 2;
         } else {
             step = 1;
         }
@@ -242,11 +278,11 @@ function App() {
 
             let first, step;
             const windowSize = window.innerWidth
-            if (windowSize > 1280) {
+            if (windowSize >= 1280) {
                 first = 12;
             } else if (
-                windowSize > 768 &&
-                windowSize <= 1280
+                windowSize >= 768 &&
+                windowSize < 1280
             ) {
                 first = 8;
             } else {
@@ -288,13 +324,23 @@ function App() {
                         setMovies(anwserApi);
 
                     })
+                    .then(() => {
+                        if (searchMovies) {
+                            for (let i in searchMovies) {
+                                for (let k in anwserApi) //TODO: покрасивее
+                                    if (searchMovies[i].id === anwserApi[k].id) {
+                                        anwserApi[k].like = true;
+                                    }
+                            }
+                            setSearchMovies(searchMovies);
+                        }
+                        setMovies(anwserApi);
+                    })
                     .then(() =>
                         localStorage.setItem('movies', JSON.stringify(anwserApi)))
                     .catch((err) => {
                         console.log(err);
                     });
-
-
             }
 
         }
@@ -305,18 +351,14 @@ function App() {
         if (data.token) {
             const jwt = data.token;
             localStorage.setItem('jwt', jwt)
+            console.log("saved token - " + data.token);
+            setLoggedIn(true);
         }
-        if (data.email) {
-            const email = data.email
-            setUserData(email)
-        }
-
-        setLoggedIn(true)
     }
 
     const handleError = (err) => console.error(err)
 
-    function handleLogin({email, password}) {
+    function handleLogin(email, password) {
         auth.authorize(email, password)
             .then(handleResponse)
             .then(() => {
@@ -325,15 +367,18 @@ function App() {
 
             })
             .catch((err) => {
-                    console.log(err); // выведем ошибку в консоль
-                }
+                console.log(err); // выведем ошибку в консоль
+            }
             )
     }
 
 
-    function handleRegister({name, email, password}) {
+    function handleRegister(name, email, password) {
         auth.register(name, email, password)
-            .then(handleResponse)
+            //.then(handleResponse)
+            .then(() => {
+                handleLogin(email, password)
+            })
             .then(() => {
                 setStatusApi("good");
                 setUserData(email);
@@ -351,18 +396,32 @@ function App() {
 
     function tokenCheck() {
         const jwt = localStorage.getItem('jwt');
+        let loginState;
+        console.log("check token");
         // проверяем токен пользователя
         if (jwt) {
             auth.checkToken(jwt)
                 .then(data => {
                     const email = data.data.email
                     setUserData(email)
-                    setLoggedIn(true)
+                    loginState = true;
+                    setLoggedIn(true);
+                    console.log("check token true");
+                    history.push(location);
+
                 })
                 .catch(handleError)
         } else {
-            setLoggedIn(false)
+            setLoggedIn(false);
+            loginState = false;
+            console.log("check token false");
+            //history.push("/");
+
         }
+        console.log("check token loginState" + loginState + " loggedIn  - " + loggedIn);
+
+        setLoggedIn(loginState);
+        return loginState;
     }
 
 
@@ -375,83 +434,86 @@ function App() {
 
                         <Route exact path="/">
                             <Header onSignOut={handleSignOut} user={userData} onLogin={handleLogin}
-                                    loggedIn={loggedIn}/>
-                            <Main/>
-                            <Footer/>
+                                loggedIn={loggedIn} />
+                            <Main />
+                            <Footer />
                         </Route>
 
 
                         <ProtectedRoute exact path="/"
-
-                                        onSignOut={handleSignOut}
-                                        user={userData}
-                                        onLogin={handleLogin}
-
-                                        loggedIn={loggedIn}
-                                        component={Main}
-                                        onMovieLike={handleMovieLike}
-                                        onMovieDelete={handleMovieDelete}
-                                        movies={movies}
-                                        currentCount={currentCount}
-                                        searchMovies={searchMovies}
-                                        moviesSaved={moviesSaved}
-                                        onHandleButton={handleButton}
+                            onSignOut={handleSignOut}
+                            user={userData}
+                            onLogin={handleLogin}
+                            onTokenCheck={tokenCheck}
+                            loggedIn={loggedIn}
+                            component={Main}
+                            onMovieLike={handleMovieLike}
+                            onMovieDelete={handleMovieDelete}
+                            movies={movies}
+                            currentCount={currentCount}
+                            searchMovies={searchMovies}
+                            moviesSaved={moviesSaved}
+                            onHandleButton={handleButton}
 
                         />
 
 
                         <ProtectedRoute exact path="/movies"
-                                        loggedIn={loggedIn} component={Movies}
-                                        onSignOut={handleSignOut}
-                                        user={userData}
-                                        onLogin={handleLogin}
-                                        movies={movies}
-                                        currentCount={currentCount}
-                                        searchMovies={searchMovies}
-                                        onMovieLike={handleMovieLike}
-                                        onMovieDelete={handleMovieDelete}
-                                        onSubmitSearch={handleMovieSearch}
-                                        onHandleButton={handleButton}
-                                        shortMoviesSaved={shortMoviesSaved}
-                                        onShortMoviesSearch={onShortMoviesSearch}
+                            onTokenCheck={tokenCheck}
+                            loggedIn={loggedIn}
+                            component={Movies}
+                            onSignOut={handleSignOut}
+                            user={userData}
+                            onLogin={handleLogin}
+                            movies={movies}
+                            currentCount={currentCount}
+                            searchMovies={searchMovies}
+                            onMovieLike={handleMovieLike}
+                            onMovieDelete={handleMovieDelete}
+                            onSubmitSearch={handleMovieSearch}
+                            onHandleButton={handleButton}
+                            shortMoviesSaved={shortMoviesSaved}
+                            onShortMoviesSearch={onShortMoviesSearch}
                         />
 
 
                         <ProtectedRoute exact path="/saved-movies"
-                                        loggedIn={loggedIn} component={SavedMovies}
-                                        onSignOut={handleSignOut}
-                                        user={userData}
-                                        onLogin={handleLogin}
-                                        moviesSaved={moviesSaved}
-                                        searchMoviesSaved={searchMoviesSaved}
-                                        onMovieLike={handleMovieLike}
-                                        onMovieDelete={handleMovieDelete}
-                                        onHandleSavedMovieSearch={handleSavedMovieSearch}
-                                        shortMoviesSaved={shortMoviesSaved}
-                                        onShortMoviesSearch={onShortMoviesSearch}
+                            onTokenCheck={tokenCheck}
+                            loggedIn={loggedIn}
+                            component={SavedMovies}
+                            onSignOut={handleSignOut}
+                            user={userData}
+                            onLogin={handleLogin}
+                            moviesSaved={moviesSaved}
+                            searchMoviesSaved={searchMoviesSaved}
+                            onMovieLike={handleMovieLike}
+                            onMovieDelete={handleMovieDelete}
+                            onHandleSavedMovieSearch={handleSavedMovieSearch}
+                            shortMoviesSaved={shortMoviesSaved}
+                            onShortMoviesSearch={onShortMoviesSearch}
                         />
 
 
                         <ProtectedRoute exact path="/profile"
-                                        loggedIn={loggedIn} component={Profile}
-                                        onSignOut={handleSignOut}
-                                        userData={userData}
-                                        onLogin={handleLogin}
-                                        user={currentUser}
-                                        onUpdateUser={handleUpdateUser}
+                            onTokenCheck={tokenCheck}
+                            loggedIn={loggedIn} component={Profile}
+                            onSignOut={handleSignOut}
+                            userData={userData}
+                            onLogin={handleLogin}
+                            user={currentUser}
+                            onUpdateUser={handleUpdateUser}
                         />
 
-
                         <Route path="/signup">
-                            <Register onRegister={handleRegister}/>
+                            <Register onRegister={handleRegister} />
                         </Route>
 
                         <Route path="/signin">
-                            <Login onLogin={handleLogin} tokenCheck={tokenCheck}/>
+                            <Login onLogin={handleLogin} tokenCheck={tokenCheck} />
                         </Route>
 
                         <Route path="*">
-                            <PageNotFound/>
+                            <PageNotFound />
                         </Route>
                     </Switch>
 

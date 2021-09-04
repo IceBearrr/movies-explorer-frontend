@@ -50,6 +50,7 @@ class MainApi {
     constructor({baseUrl, headers}) {
         this._baseUrl = baseUrl;
         this._headers = headers;
+        console.log("get token " + localStorage.getItem('jwt'));
     }
 
     _checkResponse(res) {
@@ -59,23 +60,32 @@ class MainApi {
         return Promise.reject(`Ошибка ${res.status}`);
     }
 
-    getUserInfo() {
+    getUserInfo(token) {
 
         return fetch(this._baseUrl + '/users/me', {
                 method: 'GET',
-                headers: this._headers
-            }
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+            }            }
         )
             .then(res => {
                 return this._checkResponse(res)
             })
     }
 
-    updateUser(user) {
+    updateUser(user, token) {
         // updateProfile(user) {
         return fetch(this._baseUrl + '/users/me/', {
                 method: 'PATCH',
-                headers: this._headers,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+            }   ,
                 body: JSON.stringify({
                     name: user.name,
                     email: user.email
@@ -89,10 +99,15 @@ class MainApi {
     }
 
 
-    getMovies() {
+    getMovies(token) {
+        console.log("get token " + localStorage.getItem('jwt'));
         return fetch(this._baseUrl + '/movies/', {
                 method: 'GET',
-                headers: this._headers
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
             }
         )
             .then(res => {
@@ -101,12 +116,16 @@ class MainApi {
     }
 
 
-    putNewFilm(movie) {
+    putNewFilm(movie, token) {
 
         return fetch(this._baseUrl + '/movies/', {
                 method: 'POST',
-                headers: this._headers,
-                body: JSON.stringify({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
                     country: movie.country,
                     director: movie.director,
                     duration: movie.duration,
@@ -129,11 +148,14 @@ class MainApi {
     }
 
 
-    deleteFilm(moviesId) {
+    deleteFilm(moviesId, token) {
         return fetch(this._baseUrl + '/movies/' + moviesId, {
                 method: 'DELETE',
-                headers: this._headers,
-
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
             }
         )
             .then(res => {
@@ -156,12 +178,11 @@ class MainApi {
 
 }
 
+
 const mainApi = new MainApi({
+    // baseUrl: 'http://api.icebear-movies.nomoredomains.club',
     baseUrl: 'http://localhost:8080',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-    }
+
 });
 
 export default mainApi;

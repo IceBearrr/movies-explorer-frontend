@@ -1,78 +1,59 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-// import useFormWithValidation from '../../hook/useFormWithValidation';
+import useFormWithValidation from '../hook/useFormWithValidation';
 
-// const Register = ({ onRegister, loginLink, error, isLoading, onLogoClick }) => {
-//   const formWithValidation = useFormWithValidation();
-//   const { name, email, password } = formWithValidation.values;
-
-//   // const submitHandler = (e) => {
-//   //   e.preventDefault();
-//   //   signUpHandler(name, email, password);
-//   //   formWithValidation.resetForm();
-//   // };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const { name, email, password } = data;
-//     onRegister({ name, email, password })
-//     formWithValidation.resetForm();
-//   }
-
-const Register = ({onRegister}) => {
-    const [data, setData] = useState({
-        name: '',
-        email: '',
-        password: ''
-    })
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setData({
-            ...data,
-            [name]: value
-        });
-    }
+const Register = ({ onRegister }) => {
+    const { values, errors, handleChange, resetForm } =
+        useFormWithValidation({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const {name, email, password} = data;
-        onRegister({name, email, password})
+        onRegister(values.name, values.email, values.password)
+        resetForm();
     }
 
     return (
         <div className="login-register">
             <Link to="/" className="logo-link">
                 <Logo
-                    // onClick={onLogoClick}
+                // onClick={onLogoClick}
                 />
             </Link>
 
             <h2 className="login-register__title">Добро пожаловать!</h2>
             <form className="login-register__form"
-                  onSubmit={handleSubmit}
-                // formData={formWithValidation}
-                // isSignUpError={isSignUpError}
+                onSubmit={handleSubmit}
             >
 
                 <p className="placeholder">Имя</p>
-                <input id="name" name="name" type="name" placeholder="" required minLength="2" maxLength="30"
-                       value={data.name} onChange={handleChange}/>
+                <input
+                    id="name"
+                    name="name"
+                    type="name"
+                    placeholder=""
+                    required
+                    minLength="2" maxLength="30"
+                    value={values.name || ''}
+                    onChange={handleChange} />
                 <p className="login-register__error-text">
-                    {/* {errors.name} */}
+                    {errors.name}
                 </p>
                 <p className="placeholder">E-mail</p>
-                <input id="email" name="email" type="email" placeholder="" required value={data.email}
-                       onChange={handleChange}/>
+                <input id="email" name="email" type="email"
+                    placeholder=""
+                    required value={values.email || ""}
+                    onChange={handleChange} />
                 <p className="login-register__error-text">
-                    {/* {errors.email} */}
+                    {errors.email}
                 </p>
                 <p className="placeholder">Пароль</p>
-                <input id="password" name="password" type="password" placeholder="" required minLength="2"
-                       maxLength="20" value={data.password} onChange={handleChange}/>
+                <input id="password" name="password" type="password"
+                    ceholder="" required minLength="4"
+                    maxLength="20"
+                    value={values.password || ''} onChange={handleChange} />
                 <p className="login-register__error-text">
-                    {/* {errors.password} */}
+                    {errors.password}
                 </p>
                 <button type="submit" className="login-register__btn">Зарегистрироваться</button>
             </form>

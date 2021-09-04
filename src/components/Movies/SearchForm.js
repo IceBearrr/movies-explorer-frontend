@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import useFormWithValidation from "../hook/useFormWithValidation";
 
-
-//function SearchForm({ handleSearch, setPreloader, setIsChecked, isLoading }) {
 function SearchForm(props) {
     const {values, errors, isValid, handleChange} =
         useFormWithValidation({});
@@ -34,9 +32,7 @@ function SearchForm(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        //handleSearch(keyword);
         props.onSubmitSearch(props.movies, keyword)
-        //setPreloader(true);
     }
 
     return (
@@ -51,9 +47,7 @@ function SearchForm(props) {
                     maxLength="200"
                     required
                     autoComplete="off"
-                    // value={values.keyword || ""}
                     onChange={handleKeyword}
-                    // disabled={isLoading}
 
                 />
                 <button disabled={disableButton} hidden={disableButton}
