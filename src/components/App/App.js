@@ -75,24 +75,37 @@ function App() {
 
 
     function handleMovieLike(movie) {
-        mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((movie) => {
-            getSavedMovies();
-
-
+        console.log(" movie.id " + " id " + movie.id);
+        mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then(() => {
+            getSavedMovies()
+            console.log(" movie.id "  + " id " + movie.id);
             for (let k in movies) //TODO: покрасивее
                 if (movies[k].id === movie.id) {
+                    console.log(" movies[k] " + movies[k].id);
                     movies[k].like = true;
+                    console.log(" movies " + Object.entries(movies[k]) );
+
                 }
 
             for (let k in searchMovies) //TODO: покрасивее
                 if (searchMovies[k].id === movie.id) {
+                    console.log(" searchMovies[k] " + searchMovies[k].id);
                     searchMovies[k].like = true;
+                    console.log(" searchMovies " + Object.entries(searchMovies[k]));
+
                 }
 
 
             setMovies(movies);
-
             setSearchMovies(searchMovies);
+
+
+            localStorage.setItem('movies', JSON.stringify(movies));
+            localStorage.setItem(
+                'searchMovies',
+                JSON.stringify(searchMovies)
+            );
+
             // movie.like = true;
             // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
             //setMoviesSaved(moviesSaved[moviesSaved.length] = movie)
@@ -164,22 +177,26 @@ function App() {
         mainApi.deleteFilm(movie, localStorage.getItem('jwt')).then(() => {
 
             for (let k in movies) //TODO: покрасивее
-                if (movies[k].id === movie.id) {
+                if (movies[k].id === movie) {
                     movies[k].like = false;
                 }
 
             for (let k in searchMovies) //TODO: покрасивее
-                if (searchMovies[k].id === movie.id) {
+                if (searchMovies[k].id === movie) {
                     searchMovies[k].like = false;
                 }
 
             setMovies(movies);
-
             setSearchMovies(searchMovies);
+
+            localStorage.setItem('movies', JSON.stringify(movies));
+            localStorage.setItem(
+                'searchMovies',
+                JSON.stringify(searchMovies)
+            );
 
 
             console.log("удоли" + movies);
-
             getSavedMovies();
 
             //setMoviesSaved(delete moviesSaved[movie.id])
@@ -324,18 +341,18 @@ function App() {
                         setMovies(anwserApi);
 
                     })
-                    .then(() => {
-                        if (searchMovies) {
-                            for (let i in searchMovies) {
-                                for (let k in anwserApi) //TODO: покрасивее
-                                    if (searchMovies[i].id === anwserApi[k].id) {
-                                        anwserApi[k].like = true;
-                                    }
-                            }
-                            setSearchMovies(searchMovies);
-                        }
-                        setMovies(anwserApi);
-                    })
+                    // .then(() => {
+                    //     if (searchMovies) {
+                    //         for (let i in searchMovies) {
+                    //             for (let k in anwserApi) //TODO: покрасивее
+                    //                 if (searchMovies[i].id === anwserApi[k].id) {
+                    //                     anwserApi[k].like = true;
+                    //                 }
+                    //         }
+                    //         setSearchMovies(searchMovies);
+                    //     }
+                    //     setMovies(anwserApi);
+                    // })
                     .then(() =>
                         localStorage.setItem('movies', JSON.stringify(anwserApi)))
                     .catch((err) => {

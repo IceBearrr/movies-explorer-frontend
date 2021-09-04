@@ -1,4 +1,6 @@
+//export const BASE_URL = 'http://api.icebear-movies.nomoredomains.club';
 export const BASE_URL = 'http://localhost:8080';
+
 
 const checkResponse = (response) => response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status} ${response} `)
 
@@ -180,8 +182,8 @@ class MainApi {
 
 
 const mainApi = new MainApi({
-    // baseUrl: 'http://api.icebear-movies.nomoredomains.club',
     baseUrl: 'http://localhost:8080',
+    //baseUrl: 'http://api.icebear-movies.nomoredomains.club',
 
 });
 
