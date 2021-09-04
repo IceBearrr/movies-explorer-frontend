@@ -1,12 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Logo from '../Logo/Logo';
-// import useFormWithValidation from '../../hook/useFormWithValidation';
+import useFormWithValidation from '../hook/useFormWithValidation';
 
-// const Login = ({ onLogin, loginLink, error, isLoading, onLogoClick }) => {
-// const formWithValidation = useFormWithValidation();
-// const { name, email, password } = formWithValidation.values;
-const Login = ({onLogin}) => {
+const Login = ({onLogin, isSignInError}) => {
+    const formWithValidation = useFormWithValidation();
+
     const [data, setData] = React.useState({
         email: '',
         password: ''
@@ -27,19 +26,12 @@ const Login = ({onLogin}) => {
         }
         const {email, password} = data
         onLogin({email, password})
+        formWithValidation.resetForm();
     }
-    // const submitHandler = (e) => {
-    //   e.preventDefault();
-    //   signUpHandler(name, email, password);
-    //   formWithValidation.resetForm();
-    // };
 
-    // const handleSubmit = (e) => {
-    //   e.preventDefault();
-    //   const { email, password } = data;
-    //   onLogin({ email, password })
-    //   formWithValidation.resetForm();
-    // }
+    // const onSubmit = () => {
+    //     validate() ? console.log('Submitted') : console.log('Validation Failed');
+    //   };
 
     return (
         <div className="login-register">
@@ -52,15 +44,21 @@ const Login = ({onLogin}) => {
             <h2 className="login-register__title">Добро пожаловать!</h2>
             <form className="login-register__form"
                   onSubmit={handleSubmit}
-                // formData={formWithValidation}
-                // isSignUpError={isSignUpError}
+                  data={formWithValidation}
+                  isSignInError={isSignInError}
             >
 
                 <p className="placeholder">E-mail</p>
-                <input id="email" name="email" type="email" placeholder="" required alue={data.email}
-                       onChange={handleChange}/>
-                <p className="login-register__error-text">
+                <input id="email" name="email" type="email" placeholder="" required value={data.email}
+
+                       onChange={handleChange}
+                       isSignInError={isSignInError}
+                />
+                <p className="login-register__error-text"
+                   isSignInError={isSignInError}
+                >
                     {/* {errors.email} */}
+
                 </p>
                 <p className="placeholder">Пароль</p>
                 <input id="password" name="password" type="password" placeholder="" required minLength="2"
@@ -73,7 +71,7 @@ const Login = ({onLogin}) => {
 
             <p className="login-register__footer">
                 Еще не зарегистрированы?
-                <Link className="login-register__link" to="/sign-up">Регистрация</Link>
+                <Link className="login-register__link" to="/signup">Регистрация</Link>
             </p>
         </div>
     );

@@ -15,12 +15,16 @@ function SavedMovies(props) {
                     <div className="savedMovies__search">
                         <SearchForm onSubmitSearch={props.onHandleSavedMovieSearch}
                                     movies={props.moviesSaved}
+                                    onShortMoviesSearch={props.onShortMoviesSearch}
+
                         />
                     </div>
                     <SavedMoviesCardList moviesSaved={props.moviesSaved}
                                          searchMoviesSaved={props.searchMoviesSaved}
                                          onMovieLike={props.onMovieLike}
                                          onMovieDelete={props.onMovieDelete}
+                                         shortMoviesSaved={props.shortMoviesSaved}
+
                     />
 
                 </section>

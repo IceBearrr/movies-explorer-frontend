@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.icebear-movies.nomoredomains.club';
+export const BASE_URL = 'http://localhost:8080';
 
 const checkResponse = (response) => response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status} ${response} `)
 
@@ -60,9 +60,6 @@ class MainApi {
     }
 
     getUserInfo() {
-        // return fetch(this._baseUrl + 'users/me', {
-        //     headers: this._headers
-        // }
 
         return fetch(this._baseUrl + '/users/me', {
                 method: 'GET',
@@ -70,20 +67,18 @@ class MainApi {
             }
         )
             .then(res => {
-                console.log(" res api user " + Object.entries(res));
-
                 return this._checkResponse(res)
             })
     }
 
-    updateProfile(user) {
+    updateUser(user) {
+        // updateProfile(user) {
         return fetch(this._baseUrl + '/users/me/', {
                 method: 'PATCH',
                 headers: this._headers,
                 body: JSON.stringify({
                     name: user.name,
                     email: user.email
-
                 })
             }
         )
@@ -101,8 +96,6 @@ class MainApi {
             }
         )
             .then(res => {
-                console.log(" res api movies " + res + Object.entries(res));
-
                 return this._checkResponse(res)
             });
     }
@@ -161,29 +154,13 @@ class MainApi {
     // }
 
 
-    // deleteLike(moviesId, moviesUpdateLike) {
-    //     this.moviesUpdateLike = moviesUpdateLike;
-    //     return fetch(this._baseUrl + 'movies/likes/' + moviesId, {
-    //             method: 'DELETE',
-    //             headers: this._headers,
-    //
-    //         }
-    //     )
-    //         .then(res => {
-    //             return this._checkResponse(res)
-    //         })
-    // }
-
-
 }
 
 const mainApi = new MainApi({
-    baseUrl: 'http://api.icebear-movies.nomoredomains.club',
+    baseUrl: 'http://localhost:8080',
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-        // authorization: localStorage.getItem('jwt'),
-        // 'Content-Type': 'application/json'
     }
 });
 

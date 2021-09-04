@@ -24,7 +24,7 @@ function AboutMe() {
                             href="https://www.facebook.com/mikhailBezFB/"
                             className="student__link"
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                         >
                             Facebook
                         </a>
@@ -32,7 +32,7 @@ function AboutMe() {
                             href="https://github.com/IceBearrr"
                             className="student__link"
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                         >
                             Github
                         </a>

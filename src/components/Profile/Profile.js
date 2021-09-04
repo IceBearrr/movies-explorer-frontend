@@ -6,9 +6,10 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
 function Profile(props) {
-
+    const {onSignOut} = props;
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
+
     let changeProfile = false;
 
     function handleSubmit(e) {
@@ -34,26 +35,28 @@ function Profile(props) {
         setEmail(e.target.value);
     }
 
+    // function handleSignOut() {
+    //     setUserData('')
+    //     setLoggedIn(false)
+    //     localStorage.removeItem('jwt')
+    // }
 
-    // Подписка на контекст
     const currentUser = React.useContext(CurrentUserContext);
 
-    // После загрузки текущего пользователя из API
-    // его данные будут использованы в управляемых компонентах.
     React.useEffect(() => {
         setName(currentUser.name);
         setEmail(currentUser.email);
     }, [currentUser, props.isOpen]);
 
-    const {values, errors, isValid, handleChange, resetForm} =
+    const {values, errors, isValid, handleChange} =
         useFormWithValidation({name: currentUser.name, email: currentUser.email});
 
     const [isValuesNotMatched, setisValuesNotMatched] = useState(false);
 
     function checkValues() {
         if (
-            currentUser.name === values.name &&
-            currentUser.email === values.email
+            currentUser.name === name &&
+            currentUser.email === email
         ) {
             setisValuesNotMatched(false);
         } else {
@@ -68,7 +71,7 @@ function Profile(props) {
 
     return (
         <React.Fragment>
-            <Header onSignOut={props.onSignOut} user={props.userData} onLogin={props.onLogin}/>
+            <Header user={props.userData} onLogin={props.onLogin}/>
 
             <div className="profile">
 
@@ -111,7 +114,9 @@ function Profile(props) {
                                     onChange={handleChangeEmail}
                                     //onChange={handleChange}
                                 />
-                                <span className="profile__input-error">{errors.email}</span>
+                                <span className="profile__input-error">
+                                    {/* {errors.email} */}
+                                    </span>
                             </label>
 
                             <button
@@ -123,17 +128,21 @@ function Profile(props) {
                                         : "profile__form-submit profile__form-submit_disable"
                                 }
                                 onClick={handleSubmit}
-                                disabled={!isValid && !isValuesNotMatched}
+
+                                disabled={!isValuesNotMatched}
+                                hidden={!isValuesNotMatched}
+
                             >
-                                {isValid && isValuesNotMatched
-                                    ? "Сохранить"
-                                    : "Редактировать"}
+                                {"Редактировать"}
                             </button>
                         </form>
                     </div>
                     : null
                 }
-                <button type="button" className="profile__logout-btn">Выйти из аккаунта</button>
+                <button type="button" className="profile__logout-btn" onClick={onSignOut}
+                    //  onSignOut={props.onSignOut}
+                >Выйти из аккаунта
+                </button>
             </div>
 
             <Footer/>

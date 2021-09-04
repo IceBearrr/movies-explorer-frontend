@@ -3,50 +3,54 @@ import MoviesCard from "../Movies/MoviesCard";
 // import SavedFilm from "../../images/save/save6d.svg";
 import {withRouter} from "react-router-dom";
 
+
 function SavedMoviesCardList(props) {
+    let movies;
 
-
-    let movies = props.searchMoviesSaved.length > 0 ? props.searchMoviesSaved : props.moviesSaved;
-    let nothing = true;
-    if (props.searchMoviesSaved === "ничего не найдено") {
-        props.searchMoviesSaved = "";
-        let nothing = false;
+    if (props.shortMoviesSaved.length > 0) {
+        movies = props.shortMoviesSaved;
+    } else {
+        movies = props.searchMoviesSaved.length > 0 ? props.searchMoviesSaved : props.moviesSaved;
     }
 
+    let nothing = true;
+    if (movies === "ничего не найдено") {
+        //props.searchMoviesSaved = "";
+        movies = [];
+        nothing = false;
+    }
 
     return (
         <div className="moviesCardBox">
 
+
             {!nothing
                 ?
-                <ul> ничего не найдено </ul>
+                <ul className="moviesCardList">
+                    ничего не найдено
+                </ul>
                 : null
             }
 
             {nothing
                 ?
                 <ul className="moviesCardList">
-                    {/* <ul
-        className="moviesCard"
-        > */}
                     {
-
-
                         movies.map((movie, i) => (
 
                             <MoviesCard movie={movie}
-                                        key={movie.id}
+                                        key={"save" + movie.id}
                                 // onCardClick={onCardClick}
                                         onMovieLike={props.onMovieLike}
                                 //           onMovieLike = {onMovieLike}
-                                        onMovieDelete={props.onMovieDelete}/>
+                                        onMovieDelete={props.onMovieDelete}
+                            />
                         ))
 
                     }
                 </ul>
                 : null
             }
-
             {/*
         <MoviesCard
           childrenImageSave={

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import useFormWithValidation from "../hook/useFormWithValidation";
 
+
 //function SearchForm({ handleSearch, setPreloader, setIsChecked, isLoading }) {
 function SearchForm(props) {
     const {values, errors, isValid, handleChange} =
@@ -8,12 +9,17 @@ function SearchForm(props) {
 
     const [keyword, setKeyword] = useState("");
     const [disableButton, setDisableButton] = useState(true);
-    const [isShortMovies, setIsShortMovies] = useState(false);
+    const [isShortMovies, setIsShortMovies] = useState(true);
+    const [isChecked, setIsChecked] = useState(false);
 
-    // function onCheckboxToggle(checked) {
-    //   setIsShortMovies(checked);
-    //   setIsChecked(!isShortMovies);
-    // }
+    //let location = useLocation().pathname;
+
+    function onCheckboxToggle(checked) {
+        setIsShortMovies(!isShortMovies);
+        setIsChecked(!isShortMovies);
+        props.onShortMoviesSearch(props.movies, isShortMovies)
+
+    }
 
     function handleKeyword(evt) {
         handleChange(evt);
@@ -30,7 +36,6 @@ function SearchForm(props) {
         event.preventDefault();
         //handleSearch(keyword);
         props.onSubmitSearch(props.movies, keyword)
-
         //setPreloader(true);
     }
 
@@ -59,8 +64,17 @@ function SearchForm(props) {
                 </button>
             </form>
             <div className="search-form__shorts-wrapper">
-                {/*<FilterCheckbox onCheckboxToggle={onCheckboxToggle}/>*/}
-                {/*<p className="search-form__shorts-title">Короткометражки</p>*/}
+
+                <div className="filter-checkbox">
+                    <input
+                        className="filter-checkbox__switcher"
+                        type="checkbox"
+                        onChange={onCheckboxToggle}
+                    />
+                </div>
+
+                {/*<FilterCheckbox onChange={onCheckboxToggle}/>*/}
+                <p className="search-form__shorts-title">Короткометражки</p>
 
             </div>
         </div>

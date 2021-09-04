@@ -34,7 +34,6 @@
       "react-app/jest"
     ]
   },
-
   "devDependencies": {
     "@types/node": "^16.6.1"
   }

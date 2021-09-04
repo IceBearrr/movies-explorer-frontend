@@ -79,7 +79,7 @@ const Register = ({onRegister}) => {
 
             <p className="login-register__footer">
                 Уже зарегистрированы?
-                <Link className="login-register__link" to="/sign-in">Войти</Link>
+                <Link className="login-register__link" to="/signin">Войти</Link>
             </p>
         </div>
     );

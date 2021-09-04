@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory} from "react-router-dom";
 import Header from '../Header/Header';
 import Main from './../Main/Main';
 import Footer from '../Footer/Footer';
@@ -28,11 +28,34 @@ function App() {
     const [moviesSaved, setMoviesSaved] = React.useState([]);
     const [searchMoviesSaved, setSearchMoviesSaved] = React.useState([]);
 
-    const [loggedIn, setLoggedIn] = React.useState('');
+    const [loggedIn, setLoggedIn] = React.useState(false);
     const [userData, setUserData] = React.useState('');
     const [statusApi, setStatusApi] = React.useState('');
+    const [shortMoviesSaved, setShortMoviesSaved] = React.useState([]);
+
 
     const history = useHistory();
+
+
+    function shortMoviesSearch(data, isShortMovies) {
+        const result = data.filter((movie) => {
+            return (
+                movie.duration <= 40
+            );
+        })
+        return result.length > 0
+            ? result
+            : "ничего не найдено";
+    }
+
+    function onShortMoviesSearch(movies, isShortMovies) {
+        const shortMoviesSaved = shortMoviesSearch(movies, isShortMovies);
+        if (isShortMovies) {
+            setShortMoviesSaved(shortMoviesSaved);
+        } else {
+            setShortMoviesSaved({});
+        }
+    }
 
 
     function searchMovie(data, keyword) {
@@ -44,18 +67,19 @@ function App() {
             );
         });
 
-        return result
+        return result.length > 0
             ? result
             : "ничего не найдено";
     }
 
 
     function handleMovieLike(movie) {
-            mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((movie) => {
-                // movie.like = true;
-                // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
-                //setMoviesSaved(moviesSaved[moviesSaved.length] = movie)
-            }).catch((err) => console.log(err))
+        mainApi.putNewFilm(movie, localStorage.getItem('jwt')).then((movie) => {
+            getSavedMovies();
+            // movie.like = true;
+            // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
+            //setMoviesSaved(moviesSaved[moviesSaved.length] = movie)
+        }).catch((err) => console.log(err))
 
     }
 
@@ -75,31 +99,37 @@ function App() {
         setSearchMoviesSaved(searchedMovies);
     }
 
-    //
-    // function getSavedMovies(){
-    //     mainApi.getMovies(localStorage.getItem('jwt'))
-    //         .then((data) => {
-    //             setMoviesSaved(
-    //                 data.data.map((item) => ({
-    //                     country: item.country,
-    //                     director: item.director,
-    //                     duration: item.duration,
-    //                     year: item.year,
-    //                     description: item.description,
-    //                     image: item.image,
-    //                     trailer: item.trailer,
-    //                     thumbnail: item.thumbnail,
-    //                     name: item.nameRU,
-    //                     nameEN: item.nameEN,
-    //                     id: item.movieId,
-    //                     like: true,
-    //                 }))
-    //             );
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }
+    function handleSignOut() {
+        setUserData('')
+        setLoggedIn(false)
+        localStorage.removeItem('jwt')
+    }
+
+
+    function getSavedMovies() {
+        mainApi.getMovies(localStorage.getItem('jwt'))
+            .then((data) => {
+                setMoviesSaved(
+                    data.data.map((item) => ({
+                        country: item.country,
+                        director: item.director,
+                        duration: item.duration,
+                        year: item.year,
+                        description: item.description,
+                        image: item.image,
+                        trailer: item.trailer,
+                        thumbnail: item.thumbnail,
+                        name: item.nameRU,
+                        nameEN: item.nameEN,
+                        id: item.movieId,
+                        like: true,
+                    }))
+                );
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
 
     // function getUser() {
@@ -115,31 +145,42 @@ function App() {
 
     function handleMovieDelete(movie) {
         mainApi.deleteFilm(movie).then(() => {
+            getSavedMovies();
             //setMoviesSaved(delete moviesSaved[movie.id])
             // movie.like = false;
-            // setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
+            // setMovies(movies.filter((item) => item._id !== movie._id));
+            //setMovies((state) => state.map((c) => c.id === movie.id ? movie : c));
             console.log("unsave")
         })
             .catch((err) => console.log(err));
     }
 
+    // function handleCardDelete(card) {
+    //     api.deleteCard(card._id).then(() => {
+    //         setCards(cards.filter((item) => item._id !== card._id));
+    //     }).catch((err) => console.log(err));
+    // }
+
     function handleUpdateUser(user) {
-        mainApi
-            .updateProfile(user).then(alert("Данные обновленны!"))
+        mainApi.updateUser(user).then(() => {
+            alert("Данные обновленны!");
+        })
             .catch((err) => console.log(err));
+
     }
+
 
     useEffect(_ => {
         tokenCheck()
     }, []) //если токен существыует
-    useEffect(() => {
-        if (loggedIn) {
-            history.push('/movies')
-        }
-    }, [loggedIn])
+    // useEffect(() => {
+    //     if (loggedIn) {
+    //         history.push('/')
+    //     }
+    // }, [loggedIn])
 
 
-    function handleButton()  {
+    function handleButton() {
 
         let step;
         const windowSize = window.innerWidth
@@ -147,6 +188,8 @@ function App() {
             step = 3;
         } else if (
             windowSize > 768 &&
+
+
             windowSize <= 1280
         ) {
             step = 2;
@@ -161,32 +204,32 @@ function App() {
 
     useEffect(() => {
         if (loggedIn) {
-            //getSavedMovies();
+            getSavedMovies();
             //getUser();
 
-            mainApi.getMovies()
-                .then((data) => {
-                    setMoviesSaved(
-                        data.data.map((item) => ({
-                            country: item.country,
-                            director: item.director,
-                            duration: item.duration,
-                            year: item.year,
-                            description: item.description,
-                            image: item.image,
-                            trailer: item.trailer,
-                            thumbnail: item.thumbnail,
-                            name: item.nameRU,
-                            nameEN: item.nameEN,
-                            id: item.movieId,
-                            like: true,
-                        }))
-                    );
-                })
-                .catch((err) => {
-
-                    console.log(err);
-                });
+            // mainApi.getMovies()
+            //     .then((data) => {
+            //         setMoviesSaved(
+            //             data.data.map((item) => ({
+            //                 country: item.country,
+            //                 director: item.director,
+            //                 duration: item.duration,
+            //                 year: item.year,
+            //                 description: item.description,
+            //                 image: item.image,
+            //                 trailer: item.trailer,
+            //                 thumbnail: item.thumbnail,
+            //                 name: item.nameRU,
+            //                 nameEN: item.nameEN,
+            //                 id: item.movieId,
+            //                 like: true,
+            //             }))
+            //         );
+            //     })
+            //     .catch((err) => {
+            //
+            //         console.log(err);
+            //     });
 
 
             mainApi.getUserInfo(localStorage.getItem('jwt'))
@@ -278,10 +321,11 @@ function App() {
             .then(handleResponse)
             .then(() => {
                 setUserData(email);
+                history.push("/movies");
+
             })
             .catch((err) => {
                     console.log(err); // выведем ошибку в консоль
-                    // setIsTooltipPopupOpen(true);
                 }
             )
     }
@@ -292,11 +336,9 @@ function App() {
             .then(handleResponse)
             .then(() => {
                 setStatusApi("good");
-                // setIsTooltipPopupOpen(true);
                 setUserData(email);
             })
             .catch((handleError) => {
-                // setIsTooltipPopupOpen(true);
                 console.log("handleError" + handleError);
             })
     }
@@ -332,24 +374,29 @@ function App() {
                     <Switch>
 
                         <Route exact path="/">
-                            <Header onSignOut={handleSignOut} user={userData} onLogin={handleLogin}/>
+                            <Header onSignOut={handleSignOut} user={userData} onLogin={handleLogin}
+                                    loggedIn={loggedIn}/>
                             <Main/>
                             <Footer/>
                         </Route>
 
 
-                        <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
-                            // onEditProfile={handleEditProfileClick}
-                            // onAddMovie={handleAddMovieClick}
-                            // onMovieClick={handleMovieClick}
+                        <ProtectedRoute exact path="/"
+
+                                        onSignOut={handleSignOut}
+                                        user={userData}
+                                        onLogin={handleLogin}
+
+                                        loggedIn={loggedIn}
+                                        component={Main}
                                         onMovieLike={handleMovieLike}
                                         onMovieDelete={handleMovieDelete}
                                         movies={movies}
                                         currentCount={currentCount}
                                         searchMovies={searchMovies}
                                         moviesSaved={moviesSaved}
-                                        onLogin={handleLogin}
                                         onHandleButton={handleButton}
+
                         />
 
 
@@ -365,7 +412,8 @@ function App() {
                                         onMovieDelete={handleMovieDelete}
                                         onSubmitSearch={handleMovieSearch}
                                         onHandleButton={handleButton}
-
+                                        shortMoviesSaved={shortMoviesSaved}
+                                        onShortMoviesSearch={onShortMoviesSearch}
                         />
 
 
@@ -379,6 +427,8 @@ function App() {
                                         onMovieLike={handleMovieLike}
                                         onMovieDelete={handleMovieDelete}
                                         onHandleSavedMovieSearch={handleSavedMovieSearch}
+                                        shortMoviesSaved={shortMoviesSaved}
+                                        onShortMoviesSearch={onShortMoviesSearch}
                         />
 
 
@@ -392,11 +442,11 @@ function App() {
                         />
 
 
-                        <Route path="/sign-up">
+                        <Route path="/signup">
                             <Register onRegister={handleRegister}/>
                         </Route>
 
-                        <Route path="/sign-in">
+                        <Route path="/signin">
                             <Login onLogin={handleLogin} tokenCheck={tokenCheck}/>
                         </Route>
 

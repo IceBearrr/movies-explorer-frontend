@@ -17,14 +17,19 @@ function Movies(props) {
                 <section className="movies">
                     <SearchForm onSubmitSearch={props.onSubmitSearch}
                                 movies={props.movies}
-                                searchMovies={props.searchMovies}/>
+                                searchMovies={props.searchMovies}
+                                onShortMoviesSearch={props.onShortMoviesSearch}
+
+                    />
                     <MoviesCardList movies={props.movies}
                                     searchMovies={props.searchMovies}
                                     onHandleButton={props.onHandleButton}
                                     searchMovies={props.searchMovies}
                                     currentCount={props.currentCount}
                                     onMovieLike={props.onMovieLike}
-                                    onMovieDelete={props.onMovieDelete}/>
+                                    onMovieDelete={props.onMovieDelete}
+                                    shortMoviesSaved={props.shortMoviesSaved}
+                    />
 
                 </section>
             </div>

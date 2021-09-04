@@ -9,15 +9,15 @@ function Footer() {
                 <ul className="footer__column-links">
                     <li className="footer__column-link">
                         <a className="footer__column-link" href="https://practicum.yandex.ru/" target="_blank"
-                           rel="noopener">Яндекс.Практикум</a>
+                           rel="noopener noreferrer">Яндекс.Практикум</a>
                     </li>
                     <li className="footer__column-link">
                         <a className="footer__column-link" href="https://github.com/" target="_blank"
-                           rel="noopener">Github</a>
+                           rel="noopener noreferrer">Github</a>
                     </li>
                     <li className="footer__column-link">
                         <a className="footer__column-link" href="https://ru-ru.facebook.com/" target="_blank"
-                           rel="noopener">Facebook</a>
+                           rel="noopener noreferrer">Facebook</a>
                     </li>
                 </ul>
             </div>

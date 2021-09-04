@@ -5,7 +5,7 @@ import BurgerMenuBtn from '../BurgerMenuBtn/BurgerMenuBtn';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import Logo from '../Logo/Logo';
 
-function Header() {
+function Header(props) {
 
     const [width, setWidth] = useState(window.innerWidth);
 
@@ -42,7 +42,9 @@ function Header() {
                         <Logo/>
                     </Link>
                     <div className="header__nav header__nav-wrapper_type_unauth">
-                        <Navigation/>
+                        <Navigation
+                            loggedIn={props.loggedIn}
+                        />
                     </div>
                 </Route>
 
@@ -56,7 +58,8 @@ function Header() {
                             <Logo/>
                         </Link>
                         <div className="header__nav header__nav-wrapper_type_auth">
-                            <Navigation/>
+                            <Navigation loggedIn={props.loggedIn}
+                            />
                         </div>
                     </Route>
                 ) : null}

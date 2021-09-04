@@ -15,6 +15,7 @@
     align-items: center;
     margin: 18px;
     height: 18px;
+
 }
 
 .moviesCard__movieName {
@@ -23,7 +24,9 @@
     line-height: 18px;
     color: #FFFFFF;
     margin: 0;
-    white-space: nowrap
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .moviesCard__movieDuration {
@@ -89,6 +92,20 @@
     background-color: Transparent;
 }
 
+.moviesCard__btn-saved {
+    width: 100px;
+    height: 29px;
+    background-image: url(../../images/save/save6d.svg);
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    background-color: Transparent;
+}
+
+
 .moviesCard__image {
     width: 100%;
     max-height: 200px;
@@ -134,8 +151,8 @@
         top: 12px;
         left: 100px;
     }
+
     .moviesCard__image {
         max-height: 168px;
     }
-    
 }
