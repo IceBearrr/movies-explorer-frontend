@@ -1,26 +1,78 @@
+import React, {useState} from 'react';
+import useFormWithValidation from "../hook/useFormWithValidation";
 
-import React from 'react';
-import FilterCheckbox from '../Movies/FilterCheckbox';
+function SearchForm(props) {
+    const {values, errors, isValid, handleChange} =
+        useFormWithValidation({});
 
-function SearchForm() {
-  return (
-    <div className="search-form block">
-      <div className="search-form__search-input-wrapper">
-        <input
-          className="search-form__text-input"
-          type="text"
-          placeholder="Фильм"
-          required
-        />
-        <button className="search-form__button" type="submit"></button>
-      </div>
-      <div className="search-form__shorts-wrapper">
-        <FilterCheckbox />
-        <p className="search-form__shorts-title">Короткометражки</p>
+    const [keyword, setKeyword] = useState("");
+    const [disableButton, setDisableButton] = useState(true);
+    const [isShortMovies, setIsShortMovies] = useState(true);
+    const [isChecked, setIsChecked] = useState(false);
 
-      </div>
-    </div>
-  );
+    //let location = useLocation().pathname;
+
+    function onCheckboxToggle(checked) {
+        setIsShortMovies(!isShortMovies);
+        setIsChecked(!isShortMovies);
+        props.onShortMoviesSearch(props.movies, isShortMovies)
+
+    }
+
+    function handleKeyword(evt) {
+        handleChange(evt);
+        setKeyword(evt.target.value);
+        if (evt.target.value.length > 0) {
+            setDisableButton(false)
+        } else {
+            setDisableButton(true);
+
+        }
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        props.onSubmitSearch(props.movies, keyword)
+    }
+
+    return (
+        <div className="search-form block">
+            <form className="search-form__search-input-wrapper" onSubmit={handleSubmit} required>
+                <input
+                    className="search-form__text-input"
+                    name="keyword"
+                    type="text"
+                    placeholder="Фильм"
+                    minLength="1"
+                    maxLength="200"
+                    required
+                    autoComplete="off"
+                    onChange={handleKeyword}
+
+                />
+                <button disabled={disableButton} hidden={disableButton}
+                        className="search-form__button"
+                        type="submit"
+                >
+
+                </button>
+            </form>
+            <div className="search-form__shorts-wrapper">
+
+                <div className="filter-checkbox">
+                    <input
+                        className="filter-checkbox__switcher"
+                        type="checkbox"
+                        onChange={onCheckboxToggle}
+                    />
+                </div>
+
+                {/*<FilterCheckbox onChange={onCheckboxToggle}/>*/}
+                <p className="search-form__shorts-title">Короткометражки</p>
+
+            </div>
+        </div>
+    );
 }
 
 export default SearchForm;

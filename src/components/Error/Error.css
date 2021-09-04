@@ -44,10 +44,12 @@
         padding-bottom: 10px;
         width: 300px;
     }
+
     .not-found__title {
         font-size: 12px;
         line-height: 15px;
     }
+
     .button_type_to-main {
         font-size: 12px;
         line-height: 15px;
